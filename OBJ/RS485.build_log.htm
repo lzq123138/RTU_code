@@ -1,0 +1,66 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.24.2.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: ggg 1627120368@qq.com, abc, LIC=CZLZX-H0YDD-TG77T-RM64B-3VTYV-TB11H
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.24.1
+Toolchain Path:  D:\keil5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.24.1
+Dialog DLL:      DCM.DLL V1.16.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
+Dialog DLL:      TCM.DLL V1.32.0.0
+ 
+<h2>Project:</h2>
+D:\stm32project\pro_final\USER\RS485.uvprojx
+Project File Date:  12/06/2023
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'D:\keil5\ARM\ARMCC\Bin'
+Build target 'RS485'
+compiling main.c...
+..\HARDWARE\flash\flash.h(9): warning:  #47-D: incompatible redefinition of macro "MAX_DEVICE_NUM"  (declared at line 302 of "..\HARDWARE\protocol\protocol.h")
+  #define MAX_DEVICE_NUM 6
+main.c(94): warning:  #69-D: integer conversion resulted in truncation
+  	SD_WriteDisk(SD_BUFFER,0,1000);
+main.c(136): warning:  #223-D: function "SDWriteConfig" declared implicitly
+  		SDWriteConfig(&device_manager,&platform_manager,&battery_data);
+main.c(146): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	voltage = (float)value * 3.3 * 133 / (4096 * 33);
+main.c(298): warning:  #223-D: function "SDReadConfig" declared implicitly
+  		if(SDReadConfig(&device_manager,&platform_manager,&battery_data) == 0)
+main.c(301): warning:  #223-D: function "SDWriteConfig" declared implicitly
+  			SDWriteConfig(&device_manager,&platform_manager,&battery_data);
+main.c(248): warning:  #177-D: variable "i"  was declared but never referenced
+  	uint8_t i = 0; 	
+main.c: 7 warnings, 0 errors
+linking...
+Program Size: Code=81562 RO-data=1782 RW-data=276 ZI-data=28492  
+FromELF: creating hex file...
+"..\OBJ\RS485.axf" - 0 Error(s), 7 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.15.0.pack
+                Keil.STM32F4xx_DFP.2.15.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_RS485
+  D:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>

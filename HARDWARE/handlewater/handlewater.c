@@ -29,7 +29,7 @@ static uint8_t flow_cmd5[] = {0x03,0x00,0x03,0x00,0x04};
 static uint8_t flowRate_cmd6[] = {0x03,0x00,0x04,0x00,0x02};
 static uint8_t flow_cmd6[] = {0x03,0x00,0x08,0x00,0x03};
 
-static uint8_t flow_cmd7[] = {0x04,0x00,0x00,0x00,0x28};
+static uint8_t flow_cmd7[] = {0x04,0x00,0x00,0x00,0x14};
 
 
 static void handle_waterlevel_protocol1(uint8_t index)
@@ -312,7 +312,7 @@ static void readFlowPro7(uint8_t *data,uint16_t size,uint8_t index)
 	if(CheckDataLegality(data,size,0xFF) == 0)
 		return;
 	
-	if(size < 50)
+	if(size < 40)
 		return;
 	
 	num[0] = data[5];
@@ -333,8 +333,8 @@ static void readFlowPro7(uint8_t *data,uint16_t size,uint8_t index)
 		byte32 = (byte32 << 8) | num[i];
 	}
 	
-	byte16 = data[39];
-	byte16 = num[0] << 8 | data[40];
+	byte16 = data[37];
+	byte16 = num[0] << 8 | data[38];
 	
 	device_manager._devices[index]._water_data._flow = byte32 + (float)(byte16 * 0.001);
 	

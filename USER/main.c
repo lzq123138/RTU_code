@@ -212,7 +212,7 @@ void sendRS485Xaxie(uint8_t *data,uint16_t dataSize)
 
 void read_uart1(void)
 {
-	uint8_t data[64];
+	uint8_t data[128];
 	uint16_t dataSize = 0;
 	uint16_t startIndex = 0,i = 0;
 		
