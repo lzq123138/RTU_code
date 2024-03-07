@@ -1,7 +1,7 @@
 ..\obj\protocol.o: ..\HARDWARE\protocol\protocol.c
 ..\obj\protocol.o: ..\USER\stm32f4xx.h
 ..\obj\protocol.o: ..\CORE\core_cm4.h
-..\obj\protocol.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\protocol.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\protocol.o: ..\CORE\core_cmInstr.h
 ..\obj\protocol.o: ..\CORE\core_cmFunc.h
 ..\obj\protocol.o: ..\CORE\core_cm4_simd.h
@@ -35,4 +35,4 @@
 ..\obj\protocol.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\protocol.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\protocol.o: ..\HARDWARE\protocol\protocol.h
-..\obj\protocol.o: D:\keil5\ARM\ARMCC\Bin\..\include\math.h
+..\obj\protocol.o: D:\keil5\ARM\ARMCC5\Bin\..\include\math.h

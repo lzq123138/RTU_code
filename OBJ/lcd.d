@@ -2,7 +2,7 @@
 ..\obj\lcd.o: ..\HARDWARE\LCD\lcd.h
 ..\obj\lcd.o: ..\USER\stm32f4xx.h
 ..\obj\lcd.o: ..\CORE\core_cm4.h
-..\obj\lcd.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\lcd.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\lcd.o: ..\CORE\core_cmInstr.h
 ..\obj\lcd.o: ..\CORE\core_cmFunc.h
 ..\obj\lcd.o: ..\CORE\core_cm4_simd.h

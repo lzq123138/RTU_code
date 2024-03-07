@@ -2,7 +2,7 @@
 ..\obj\main.o: ..\SYSTEM\sys\sys.h
 ..\obj\main.o: ..\USER\stm32f4xx.h
 ..\obj\main.o: ..\CORE\core_cm4.h
-..\obj\main.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\main.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\main.o: ..\CORE\core_cmInstr.h
 ..\obj\main.o: ..\CORE\core_cmFunc.h
 ..\obj\main.o: ..\CORE\core_cm4_simd.h
@@ -37,7 +37,7 @@
 ..\obj\main.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\main.o: ..\SYSTEM\delay\delay.h
 ..\obj\main.o: ..\SYSTEM\usart\usart.h
-..\obj\main.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\main.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdio.h
 ..\obj\main.o: ..\HARDWARE\LED\led.h
 ..\obj\main.o: ..\HARDWARE\LCD\lcd.h
 ..\obj\main.o: ..\HARDWARE\protocol\protocol.h
@@ -49,11 +49,11 @@
 ..\obj\main.o: ..\HARDWARE\IWDG\iwdg.h
 ..\obj\main.o: ..\HARDWARE\flash\flash.h
 ..\obj\main.o: ..\HARDWARE\queue\liuqueue.h
-..\obj\main.o: D:\keil5\ARM\ARMCC\Bin\..\include\time.h
+..\obj\main.o: D:\keil5\ARM\ARMCC5\Bin\..\include\time.h
 ..\obj\main.o: ..\HARDWARE\SD\sdio_sdcard.h
 ..\obj\main.o: ..\HARDWARE\hc08\hc08.h
 ..\obj\main.o: ..\HARDWARE\LCD\lcdhandle.h
 ..\obj\main.o: ..\HARDWARE\adc\adc.h
 ..\obj\main.o: ..\HARDWARE\handlewater\handlewater.h
-..\obj\main.o: sdhandle.h
+..\obj\main.o: ..\HARDWARE\SD\sdhandle.h
 ..\obj\main.o: ..\CORE\core_cm4.h

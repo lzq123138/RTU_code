@@ -3,7 +3,7 @@
 ..\obj\ec20.o: ..\SYSTEM\sys\sys.h
 ..\obj\ec20.o: ..\USER\stm32f4xx.h
 ..\obj\ec20.o: ..\CORE\core_cm4.h
-..\obj\ec20.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\ec20.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\ec20.o: ..\CORE\core_cmInstr.h
 ..\obj\ec20.o: ..\CORE\core_cmFunc.h
 ..\obj\ec20.o: ..\CORE\core_cm4_simd.h
@@ -38,13 +38,14 @@
 ..\obj\ec20.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\ec20.o: ..\SYSTEM\delay\delay.h
 ..\obj\ec20.o: ..\SYSTEM\usart\usart.h
-..\obj\ec20.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\ec20.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdio.h
 ..\obj\ec20.o: ..\HARDWARE\protocol\protocol.h
-..\obj\ec20.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\ec20.o: D:\keil5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\ec20.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdlib.h
+..\obj\ec20.o: D:\keil5\ARM\ARMCC5\Bin\..\include\string.h
 ..\obj\ec20.o: ..\HARDWARE\IWDG\iwdg.h
 ..\obj\ec20.o: ..\HARDWARE\queue\liuqueue.h
 ..\obj\ec20.o: ..\HARDWARE\hc08\hc08.h
-..\obj\ec20.o: ..\USER\sdhandle.h
+..\obj\ec20.o: ..\HARDWARE\SD\sdhandle.h
+..\obj\ec20.o: ..\HARDWARE\SD\sdio_sdcard.h
 ..\obj\ec20.o: ..\HARDWARE\RS485\rs485.h
 ..\obj\ec20.o: ..\HARDWARE\flash\flash.h

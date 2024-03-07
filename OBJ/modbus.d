@@ -2,7 +2,7 @@
 ..\obj\modbus.o: ..\HARDWARE\MODBUS\modbus.h
 ..\obj\modbus.o: ..\USER\stm32f4xx.h
 ..\obj\modbus.o: ..\CORE\core_cm4.h
-..\obj\modbus.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\modbus.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\modbus.o: ..\CORE\core_cmInstr.h
 ..\obj\modbus.o: ..\CORE\core_cmFunc.h
 ..\obj\modbus.o: ..\CORE\core_cm4_simd.h
@@ -37,6 +37,6 @@
 ..\obj\modbus.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\modbus.o: ..\HARDWARE\RS485\rs485.h
 ..\obj\modbus.o: ..\SYSTEM\sys\sys.h
-..\obj\modbus.o: D:\keil5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\modbus.o: D:\keil5\ARM\ARMCC5\Bin\..\include\string.h
 ..\obj\modbus.o: ..\SYSTEM\delay\delay.h
 ..\obj\modbus.o: ..\HARDWARE\protocol\protocol.h

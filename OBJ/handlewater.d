@@ -1,7 +1,7 @@
 ..\obj\handlewater.o: ..\HARDWARE\handlewater\handlewater.c
 ..\obj\handlewater.o: ..\HARDWARE\handlewater\handlewater.h
 ..\obj\handlewater.o: ..\HARDWARE\protocol\protocol.h
-..\obj\handlewater.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\handlewater.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\handlewater.o: ..\HARDWARE\MODBUS\modbus.h
 ..\obj\handlewater.o: ..\USER\stm32f4xx.h
 ..\obj\handlewater.o: ..\CORE\core_cm4.h

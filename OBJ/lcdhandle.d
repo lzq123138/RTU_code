@@ -3,7 +3,7 @@
 ..\obj\lcdhandle.o: ..\FWLIB\inc\stm32f4xx_adc.h
 ..\obj\lcdhandle.o: ..\USER\stm32f4xx.h
 ..\obj\lcdhandle.o: ..\CORE\core_cm4.h
-..\obj\lcdhandle.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\lcdhandle.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\lcdhandle.o: ..\CORE\core_cmInstr.h
 ..\obj\lcdhandle.o: ..\CORE\core_cmFunc.h
 ..\obj\lcdhandle.o: ..\CORE\core_cm4_simd.h
@@ -37,6 +37,6 @@
 ..\obj\lcdhandle.o: ..\HARDWARE\LCD\lcdhandle.h
 ..\obj\lcdhandle.o: ..\HARDWARE\LCD\lcd.h
 ..\obj\lcdhandle.o: ..\HARDWARE\protocol\protocol.h
-..\obj\lcdhandle.o: D:\keil5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\lcdhandle.o: D:\keil5\ARM\ARMCC5\Bin\..\include\string.h
 ..\obj\lcdhandle.o: ..\HARDWARE\KEY\key.h
 ..\obj\lcdhandle.o: ..\SYSTEM\sys\sys.h

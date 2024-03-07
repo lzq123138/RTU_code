@@ -362,6 +362,23 @@ static void calculate_water_data(void)
 	}
 }
 
+static void CheckEC20StateToReboot(void)
+{
+	msg_event_t event;
+	
+	if(EC20_msg._ec20_haveinit == 0 || EC20_msg._csq1 < 12 || EC20_msg._csq1 > 31)
+	{
+		EC20_msg._ec20_stage._cmd_time = sys_time._diff;
+		return;
+	}
+
+	if( (sys_time._diff - EC20_msg._ec20_stage._cmd_time) > 15 * 60 )
+	{
+		event._msg_type = MSG_REBOOT;
+		push_event(event);
+	}		
+}
+
 //定时器2中断服务函数
 void TIM2_IRQHandler(void)
 {
@@ -423,9 +440,7 @@ void TIM4_IRQHandler(void)
 			event._msg_type = EC20_EVENT_CSQ;
 			push_ec20_event(event);
 		}
-		
-		
-		
+				
 		//每一小时存一次数据
 		if(sys_time._diff > 0 && sys_time._diff % 3600 == 0)
 		{
@@ -447,7 +462,7 @@ void TIM4_IRQHandler(void)
 		}
 		
 		//发送数据
-		report_save_data_check();// 测试中 先关闭往平台发数据逻辑
+		report_save_data_check();
 		
 		//与远程平台的通信
 		if(sys_time._diff > 0 && sys_time._diff % 300 == 0 && EC20_msg._ec20_haveinit)
@@ -455,6 +470,9 @@ void TIM4_IRQHandler(void)
 			event._msg_type = EC20_EVENT_DATA_UPDATE;
 			push_ec20_event(event);
 		}
+		
+		//检测是否EC20进程卡住，卡住就重启
+		CheckEC20StateToReboot();
 		
 		//如果没有初始化成功SD卡 就继续初始SD卡
 		if(SDCardInitSuccessFlag == 0 && sys_time._diff % 60 == 0 && sys_time._diff != 0 && SDFailedNums < 3)

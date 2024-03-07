@@ -2,7 +2,7 @@
 ..\obj\flash.o: ..\HARDWARE\flash\flash.h
 ..\obj\flash.o: ..\USER\stm32f4xx.h
 ..\obj\flash.o: ..\CORE\core_cm4.h
-..\obj\flash.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\flash.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\flash.o: ..\CORE\core_cmInstr.h
 ..\obj\flash.o: ..\CORE\core_cmFunc.h
 ..\obj\flash.o: ..\CORE\core_cm4_simd.h

@@ -2,7 +2,7 @@
 ..\obj\sdhandle.o: ..\HARDWARE\SD\sdhandle.h
 ..\obj\sdhandle.o: ..\USER\stm32f4xx.h
 ..\obj\sdhandle.o: ..\CORE\core_cm4.h
-..\obj\sdhandle.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\sdhandle.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\sdhandle.o: ..\CORE\core_cmInstr.h
 ..\obj\sdhandle.o: ..\CORE\core_cmFunc.h
 ..\obj\sdhandle.o: ..\CORE\core_cm4_simd.h

@@ -2,7 +2,7 @@
 ..\obj\hc08.o: ..\HARDWARE\hc08\hc08.h
 ..\obj\hc08.o: ..\USER\stm32f4xx.h
 ..\obj\hc08.o: ..\CORE\core_cm4.h
-..\obj\hc08.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\hc08.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\hc08.o: ..\CORE\core_cmInstr.h
 ..\obj\hc08.o: ..\CORE\core_cmFunc.h
 ..\obj\hc08.o: ..\CORE\core_cm4_simd.h
@@ -37,7 +37,8 @@
 ..\obj\hc08.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\hc08.o: ..\HARDWARE\queue\liuqueue.h
 ..\obj\hc08.o: ..\HARDWARE\protocol\protocol.h
-..\obj\hc08.o: D:\keil5\ARM\ARMCC\Bin\..\include\math.h
+..\obj\hc08.o: D:\keil5\ARM\ARMCC5\Bin\..\include\math.h
 ..\obj\hc08.o: ..\HARDWARE\LCD\lcdhandle.h
 ..\obj\hc08.o: ..\HARDWARE\LCD\lcd.h
-..\obj\hc08.o: ..\USER\sdhandle.h
+..\obj\hc08.o: ..\HARDWARE\SD\sdhandle.h
+..\obj\hc08.o: ..\HARDWARE\SD\sdio_sdcard.h

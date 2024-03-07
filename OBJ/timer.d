@@ -3,7 +3,7 @@
 ..\obj\timer.o: ..\SYSTEM\sys\sys.h
 ..\obj\timer.o: ..\USER\stm32f4xx.h
 ..\obj\timer.o: ..\CORE\core_cm4.h
-..\obj\timer.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\timer.o: D:\keil5\ARM\ARMCC5\Bin\..\include\stdint.h
 ..\obj\timer.o: ..\CORE\core_cmInstr.h
 ..\obj\timer.o: ..\CORE\core_cmFunc.h
 ..\obj\timer.o: ..\CORE\core_cm4_simd.h
@@ -39,7 +39,8 @@
 ..\obj\timer.o: ..\HARDWARE\LED\led.h
 ..\obj\timer.o: ..\HARDWARE\protocol\protocol.h
 ..\obj\timer.o: ..\HARDWARE\queue\liuqueue.h
-..\obj\timer.o: ..\USER\sdhandle.h
+..\obj\timer.o: ..\HARDWARE\SD\sdhandle.h
+..\obj\timer.o: ..\HARDWARE\SD\sdio_sdcard.h
 ..\obj\timer.o: ..\HARDWARE\handlewater\handlewater.h
 ..\obj\timer.o: ..\HARDWARE\MODBUS\modbus.h
 ..\obj\timer.o: ..\HARDWARE\adc\adc.h
