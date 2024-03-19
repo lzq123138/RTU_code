@@ -31,6 +31,8 @@ static uint8_t flow_cmd6[] = {0x03,0x00,0x08,0x00,0x03};
 
 static uint8_t flow_cmd7[] = {0x04,0x00,0x00,0x00,0x14};
 
+static uint8_t flow_cmd8[] = {0x03,0x00,0x5A,0x00,0x0A};
+
 
 static void handle_waterlevel_protocol1(uint8_t index)
 {	
@@ -106,9 +108,24 @@ static void handle_waterlevel_protocol2(uint8_t index)
 }
 
 
-static void handle_water_flow_protocol7(uint8_t index)
+static void handle_water_flow_protocolOnce(uint8_t index,uint8_t protocol)
 {
-	Modbus_Send_cmd(flow_cmd7,5,device_manager._devices[index]._device_number);
+	uint8_t return_flag = 0;
+	switch(protocol)
+	{
+		case FLOWMETER_PROTOCOL7:
+			Modbus_Send_cmd(flow_cmd7,5,device_manager._devices[index]._device_number);
+			break;
+		case FLOWMETER_PROTOCOL8:
+			Modbus_Send_cmd(flow_cmd8,5,device_manager._devices[index]._device_number);
+			break;
+		default:
+			return_flag = 1;
+			break;
+			
+	}
+	if(return_flag == 1)
+		return;
 	rs485State._flag = 1;
 	rs485State._cmd_time = sys_time._diff;	
 }
@@ -216,7 +233,8 @@ static void handle_flow(uint8_t index)
 			handle_water_flow_protocol1and2(index,device_manager._devices[index]._device_protocol);
 			break;
 		case FLOWMETER_PROTOCOL7:
-			handle_water_flow_protocol7(index);
+		case FLOWMETER_PROTOCOL8:
+			handle_water_flow_protocolOnce(index,device_manager._devices[index]._device_protocol);
 			break;
 		default:
 			break;
@@ -297,6 +315,44 @@ static void readWaterLevel(uint8_t *data,uint16_t size,uint8_t index)
 	}
 }
 
+static void readFlowProHuaLong(uint8_t *data,uint16_t size,uint8_t index)
+{
+	uint32_t byte32 = 0;
+	uint16_t byte16 = 0;
+	float f1;
+	uint8_t num[8] = {0};
+	uint8_t i;
+	
+	if(index >= device_manager._device_count)
+		return;
+	
+	if(CheckDataLegality(data,size,0xFF) == 0)
+		return;
+	
+	if(size < 23)
+		return;
+	
+	num[0] = data[3];
+	num[1] = data[4];
+	num[2] = data[5];
+	num[3] = data[6];
+		
+	f1 = Hex2Float(num);
+	device_manager._devices[index]._water_data._flow = f1;
+	
+	num[0] = data[19];
+	num[1] = data[20];
+	num[2] = data[21];
+	num[3] = data[22];	
+	
+	f1 = Hex2Float(num);
+	device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+	
+	rs485State._flag = 0;
+	rs485State._cmd_time = sys_time._diff;
+	device_manager._devices[index]._device_com_state = 0x01;
+	device_manager._devices[index]._failed_num = 0;
+}
 
 static void readFlowPro7(uint8_t *data,uint16_t size,uint8_t index)
 {
@@ -549,6 +605,8 @@ static void readFlowMeter(uint8_t *data,uint16_t size,uint8_t index)
 			break;
 		case FLOWMETER_PROTOCOL7:
 			readFlowPro7(data,size,index);
+		case FLOWMETER_PROTOCOL8:
+			readFlowProHuaLong(data,size,index);
 		default:
 			break;
 	}
@@ -607,7 +665,7 @@ static void failedWaterLevel(uint8_t index)
 	}
 }
 
-static void failedFlowMeterPro7(uint8_t index)
+static void failedFlowMeterReadOnce(uint8_t index)
 {
 	rs485State._failed_num += 1;
 	
@@ -688,7 +746,8 @@ static void failedFlowMeter(uint8_t index)
 			failedFlowMeterNormal(index);
 			break;
 		case FLOWMETER_PROTOCOL7:
-			failedFlowMeterPro7(index);
+		case FLOWMETER_PROTOCOL8:
+			failedFlowMeterReadOnce(index);
 			break;
 		default:
 			break;

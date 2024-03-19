@@ -23,6 +23,7 @@ extern hydrology_packet_t	hydrology_packet;
 extern battery_data_t		battery_data;
 extern uint8_t 				SDCardInitSuccessFlag;
 extern uint8_t 				ProUpdateFlag;
+extern uint64_t 			connectServerDiff;
 
 EC20_send_data_t	EC20_Send_Data[6];
 
@@ -36,11 +37,14 @@ uint8_t rebootFlag = 0;
 
 uint8_t xiaxieTimeTag[20];
 
+extern uint8_t 	debugFlag;
+
 
 void Clear_Buffer(void)//清空缓存
 {
 	uint16_t i;
-	//RS485_Send_Data(RxBuffer,Rxcouter);
+	if(debugFlag == 1)
+		RS485_Send_Data(RxBuffer,Rxcouter);
 	for(i=0;i<Rxcouter;i++)
 		RxBuffer[i]=0;//缓存
 	Rxcouter=0;
@@ -71,6 +75,7 @@ void EC20_Restart(void)
 	PWRKEY = 0;//EC20开机
 	delay_ms(10);
 	restart_num = EC20_msg._restart_num + 1;
+	clear_ec20_event();//清空所有的ec20任务
 	EC20_Init();
 	EC20_msg._restart_num = restart_num;
 }
@@ -1228,7 +1233,6 @@ void EC20_check_init(void)
 {
 	if(EC20_msg._ec20_event._state == EC20_STATE_WAIT_START)
 	{
-		//肯定是第一次进来的时候 组建水文包
 		EC20_msg._ec20_stage._type = EC20_AT;
 		EC20_init_num();
 		EC20_do();
@@ -1284,9 +1288,13 @@ void EC20_check_init(void)
 		else if(EC20_msg._ec20_event._res == EC20_RES_FAILED)
 		{
 			if(EC20_msg._restart_num <= 1)
-			{
+			{//尝试重启EC20模块2次
 				EC20_Restart();
 				EC20_msg._restart_num += 1;
+			}
+			else
+			{//证明并不是EC20的问题 直接重新走初始化流程
+				EC20_Init();
 			}
 		}
 	}
@@ -1628,6 +1636,7 @@ void EC20_check_updateData(void)
 					//在这里需要修改为等待服务器发命令
 					if(EC20_msg._ec20_stage._time_num <= 0)
 					{
+						connectServerDiff = sys_time._diff;//记录连接上后台的时间
 						EC20_msg._ec20_stage._type = EC20_SEND_LOCAL;
 						EC20_init_num();
 						EC20_do();

@@ -21,6 +21,7 @@ extern battery_data_t		battery_data;
 extern uint8_t 				SDCardInitSuccessFlag;
 extern uint8_t				ChangeFlag;
 extern rs485_state_t 		rs485State;
+extern uint8_t 				debugFlag;
 
 void hc08_init(uint32_t bound)
 {
@@ -302,6 +303,20 @@ static uint16_t data_to_local(uint16_t index,uint8_t *data)
 			platform_manager._platforms[i]._send_data_type = (battery_data._extend_data[2] << 8) | battery_data._extend_data[3]; 
 		}
 	}
+	else if(battery_data._extend_data[0] == 0x04)
+	{
+		if(battery_data._extend_data[6] = 0xFF && battery_data._extend_data[7] == 0xFF)
+		{
+			if(battery_data._extend_data[1] == 0x01)
+			{
+				debugFlag = 1;
+			}
+			else
+			{
+				debugFlag = 0;
+			}
+		}
+	}
 	
 	battery_data._extend_data[0] = 0xFF;
 	
@@ -500,7 +515,10 @@ uint16_t createDeviceRealData(uint8_t *data)
 		appendUint32ToData(data,&size,byte);
 		byte = device_manager._devices[i]._water_data._flowRate * 1000 * 3600.0;//瞬时流量
 		appendUint32ToData(data,&size,byte);
-		byte = device_manager._devices[i]._water_data._flow;//流量
+		if(device_manager._devices[i]._water_data._flow < 0)
+			byte = 0;
+		else
+			byte = device_manager._devices[i]._water_data._flow;//流量
 		appendUint32ToData(data,&size,byte);
 		byte = device_manager._devices[i]._water_data._flow_backup;//流量备份
 		appendUint32ToData(data,&size,byte);
@@ -841,7 +859,7 @@ static void send_device_protoclo_data(void)
 	sprintf(tmp_data,"流量计");
 	appendStringToData(data,&size,tmp_data);
 	
-	data[size++] = 0x07;//设备二 包含6种协议
+	data[size++] = 0x08;//设备二 包含8种协议
 	data[size++] = FLOWMETER_PROTOCOL1;//协议一编号
 	sprintf(tmp_data,"施耐德电磁");//协议一名称
 	appendStringToData(data,&size,tmp_data);
@@ -866,9 +884,14 @@ static void send_device_protoclo_data(void)
 	sprintf(tmp_data,"建恒超声");//协议六名称
 	appendStringToData(data,&size,tmp_data);
 	
-	data[size++] = FLOWMETER_PROTOCOL7;//协议四编号
-	sprintf(tmp_data,"百江通超声");//协议六名称
+	data[size++] = FLOWMETER_PROTOCOL7;//协议7编号
+	sprintf(tmp_data,"百江通超声");//协议7名称
 	appendStringToData(data,&size,tmp_data);
+	
+	data[size++] = FLOWMETER_PROTOCOL8;//协议8编号
+	sprintf(tmp_data,"华隆电磁");//协议8名称
+	appendStringToData(data,&size,tmp_data);
+	
 	
 	//设备数据走完 计算公式数据
 	data[size++] = 0x01;//目前只有一种计算公式

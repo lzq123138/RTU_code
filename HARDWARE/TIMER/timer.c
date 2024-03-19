@@ -21,6 +21,7 @@ extern battery_data_t			battery_data;
 extern uint8_t RS485Mode;
 extern uint8_t SDFailedNums;
 extern rs485_state_t rs485State;
+extern uint64_t  connectServerDiff;
 
 //Õ®”√RTC≈‰÷√
 void RTC_Config_Jxjs(void)
@@ -366,13 +367,13 @@ static void CheckEC20StateToReboot(void)
 {
 	msg_event_t event;
 	
-	if(EC20_msg._ec20_haveinit == 0 || EC20_msg._csq1 < 12 || EC20_msg._csq1 > 31)
+	if(EC20_msg._ec20_haveinit == 0 || EC20_msg._csq1 < 13 || battery_data._voltage < 90)
 	{
-		EC20_msg._ec20_stage._cmd_time = sys_time._diff;
+		connectServerDiff = sys_time._diff;
 		return;
 	}
 
-	if( (sys_time._diff - EC20_msg._ec20_stage._cmd_time) > 15 * 60 )
+	if( (sys_time._diff - connectServerDiff) > 12 * 60 )
 	{
 		event._msg_type = MSG_REBOOT;
 		push_event(event);

@@ -333,6 +333,7 @@ void init_waterData(jxjs_water_data_t *data);
 #define FLOWMETER_PROTOCOL5		0x05 //上海肯特电磁流量计
 #define FLOWMETER_PROTOCOL6		0x06 //建恒DCT1158 超声波流量计
 #define FLOWMETER_PROTOCOL7		0x07 //百江通 超声波流量计
+#define FLOWMETER_PROTOCOL8		0x08 //信箱华隆 电磁流量计
 
 #define MAX_DEVICE_NUM	4
 typedef struct
@@ -430,6 +431,7 @@ void init_platform_manager(platform_manager_t	*manager);
 #define MSG_FLUSH_LCD		0x13
 #define	MSG_INIT_SD			0x14
 #define MSG_SAVE_DATA		0x15
+#define MSG_REBOOT_EC20		0x16
 
 #define MSG_IWDF_FEED		0x20
 

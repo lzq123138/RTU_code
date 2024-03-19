@@ -35,6 +35,8 @@ uint8_t 				ProUpdateFlag = 0;
 uint8_t					RS485Mode = 0;//RS485模式 0-->下泄生态流量 1-->外接传感器控制
 uint8_t					SDFailedNums = 0;
 rs485_state_t			rs485State;
+uint64_t 				connectServerDiff = 0;
+uint8_t 				debugFlag = 0;
 	
 extern uint8_t RS485_RX_BUF[128];
 extern uint8_t RS485_RX_CNT;
@@ -238,6 +240,9 @@ void read_uart1(void)
 		{
 			if(RS485_RX_BUF[startIndex + 1] == 0x03 || RS485_RX_BUF[startIndex + 1] == 0x04)
 			{
+				if(RS485_RX_BUF[startIndex + 2] > 100)
+					return;
+				
 				dataSize = 0;
 				for(i = startIndex;i < startIndex + RS485_RX_BUF[startIndex + 2] + 5;i++)
 				{
@@ -374,7 +379,7 @@ int main(void)
 	Adc_Init();
 	
 	//定下程序版本
-	battery_data._version = 2;
+	battery_data._version = 3;
 	
 	//读取内存配置 如果没有则采用默认值
 	if(SDCardInitSuccessFlag)
