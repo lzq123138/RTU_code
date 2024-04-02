@@ -859,7 +859,7 @@ static void send_device_protoclo_data(void)
 	sprintf(tmp_data,"流量计");
 	appendStringToData(data,&size,tmp_data);
 	
-	data[size++] = 0x08;//设备二 包含8种协议
+	data[size++] = 0x09;//设备二 包含8种协议
 	data[size++] = FLOWMETER_PROTOCOL1;//协议一编号
 	sprintf(tmp_data,"施耐德电磁");//协议一名称
 	appendStringToData(data,&size,tmp_data);
@@ -890,6 +890,10 @@ static void send_device_protoclo_data(void)
 	
 	data[size++] = FLOWMETER_PROTOCOL8;//协议8编号
 	sprintf(tmp_data,"华隆电磁");//协议8名称
+	appendStringToData(data,&size,tmp_data);
+	
+	data[size++] = FLOWMETER_JINYI;//协议9编号
+	sprintf(tmp_data,"京仪电磁");//协议9名称
 	appendStringToData(data,&size,tmp_data);
 	
 	

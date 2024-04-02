@@ -33,7 +33,7 @@ void RS485_Init(uint32_t bound)
   //串口1引脚复用映射
 	GPIO_PinAFConfig(RS485_GPIOX,RS485_TX_AF,GPIO_AF_USART1); //GPIOB10复用为USART1
 	GPIO_PinAFConfig(RS485_GPIOX,RS485_RX_AF,GPIO_AF_USART1); //GPIOB11复用为USART1
-	//USART3    
+	//USART1    
     GPIO_InitStructure.GPIO_Pin = RS485_TX | RS485_RX; //GPIOA9与GPIOA10
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;//复用功能
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;	//速度100MHz

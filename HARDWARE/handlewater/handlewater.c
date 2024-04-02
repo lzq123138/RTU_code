@@ -33,6 +33,8 @@ static uint8_t flow_cmd7[] = {0x04,0x00,0x00,0x00,0x14};
 
 static uint8_t flow_cmd8[] = {0x03,0x00,0x5A,0x00,0x0A};
 
+static uint8_t flow_cmd9[] = {0x04,0x10,0x10,0x00,0x12};
+
 
 static void handle_waterlevel_protocol1(uint8_t index)
 {	
@@ -119,6 +121,8 @@ static void handle_water_flow_protocolOnce(uint8_t index,uint8_t protocol)
 		case FLOWMETER_PROTOCOL8:
 			Modbus_Send_cmd(flow_cmd8,5,device_manager._devices[index]._device_number);
 			break;
+		case FLOWMETER_JINYI:
+			Modbus_Send_cmd(flow_cmd9,5,device_manager._devices[index]._device_number);
 		default:
 			return_flag = 1;
 			break;
@@ -234,6 +238,7 @@ static void handle_flow(uint8_t index)
 			break;
 		case FLOWMETER_PROTOCOL7:
 		case FLOWMETER_PROTOCOL8:
+		case FLOWMETER_JINYI:
 			handle_water_flow_protocolOnce(index,device_manager._devices[index]._device_protocol);
 			break;
 		default:
@@ -313,6 +318,55 @@ static void readWaterLevel(uint8_t *data,uint16_t size,uint8_t index)
 		default:
 			break;
 	}
+}
+
+static void readFlowJingyi(uint8_t *data,uint16_t size,uint8_t index)
+{
+	uint32_t byte32 = 0;
+	uint16_t byte16 = 0;
+	float f1;
+	uint8_t num[8] = {0};
+	uint8_t i;
+	
+	if(index >= device_manager._device_count)
+		return;
+	
+	if(CheckDataLegality(data,size,0xFF) == 0)
+		return;
+	
+	if(size < 39)
+		return;
+	
+	num[0] = data[3];
+	num[1] = data[4];
+	num[2] = data[5];
+	num[3] = data[6];
+		
+	f1 = Hex2Float(num);
+	device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+	
+	num[0] = data[19];
+	num[1] = data[20];
+	num[2] = data[21];
+	num[3] = data[22];	
+	
+	for(i = 0;i< 4;i++)
+	{
+		byte32 = (byte32 << 8) | num[i];
+	}
+	
+	num[0] = data[23];
+	num[1] = data[24];
+	num[2] = data[25];
+	num[3] = data[26];	
+	
+	f1 = Hex2Float(num);
+	device_manager._devices[index]._water_data._flow = byte32 * 1.0 + f1;;
+	
+	rs485State._flag = 0;
+	rs485State._cmd_time = sys_time._diff;
+	device_manager._devices[index]._device_com_state = 0x01;
+	device_manager._devices[index]._failed_num = 0;
 }
 
 static void readFlowProHuaLong(uint8_t *data,uint16_t size,uint8_t index)
@@ -605,8 +659,13 @@ static void readFlowMeter(uint8_t *data,uint16_t size,uint8_t index)
 			break;
 		case FLOWMETER_PROTOCOL7:
 			readFlowPro7(data,size,index);
+			break;
 		case FLOWMETER_PROTOCOL8:
 			readFlowProHuaLong(data,size,index);
+			break;
+		case FLOWMETER_JINYI:
+			readFlowJingyi(data,size,index);
+			break;
 		default:
 			break;
 	}
@@ -747,6 +806,7 @@ static void failedFlowMeter(uint8_t index)
 			break;
 		case FLOWMETER_PROTOCOL7:
 		case FLOWMETER_PROTOCOL8:
+		case FLOWMETER_JINYI:
 			failedFlowMeterReadOnce(index);
 			break;
 		default:

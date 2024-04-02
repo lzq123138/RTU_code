@@ -334,6 +334,7 @@ void init_waterData(jxjs_water_data_t *data);
 #define FLOWMETER_PROTOCOL6		0x06 //建恒DCT1158 超声波流量计
 #define FLOWMETER_PROTOCOL7		0x07 //百江通 超声波流量计
 #define FLOWMETER_PROTOCOL8		0x08 //信箱华隆 电磁流量计
+#define	FLOWMETER_JINYI			0x09 //京仪电磁流量计
 
 #define MAX_DEVICE_NUM	4
 typedef struct

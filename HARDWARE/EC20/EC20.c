@@ -129,6 +129,7 @@ void EC20_at(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT\r\n");
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_parse_at(void)
@@ -151,12 +152,14 @@ void EC20_ate0(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("ATE0\r\n");//关闭回显
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_csq(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+CSQ\r\n");
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_parsecsq(void)
@@ -206,12 +209,14 @@ void EC20_ati(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("ATI\r\n");
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_cpin(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+CPIN?\r\n");//检查SIM卡是否在位,卡的缺口朝外放置 
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_parsecpin(void)
@@ -234,6 +239,7 @@ void EC20_creg(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+CREG?\r\n");//查看是否注册GSM网络
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_parsecreg(void)
@@ -280,18 +286,21 @@ void EC20_atcops(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+COPS?\r\n");
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_atqiclose(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+QICLOSE=0\r\n");//关闭socket连接
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_atqicsgp(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+QICSGP=1,1,\042CMNET\042,\042\042,\042\042,0\r\n");//接入APN，无用户名和密码
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_parseatqicsgp(void)
@@ -314,6 +323,7 @@ void EC20_atqideact(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+QIDEACT=1\r\n");//去激活
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_parseatqideact(void)
@@ -336,6 +346,7 @@ void EC20_atqiact(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+QIACT=1\r\n");//激活
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_parseatqiact(void)
@@ -366,11 +377,13 @@ void EC20_ctzu(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+CTZU=1\r\n");
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 void EC20_cclk(void)
 {
 	EC20_msg._ec20_stage._state = EC20_STATE_IN_PROGRESS;
 	printf("AT+CCLK?\r\n");
+	EC20_msg._ec20_stage._cmd_time = sys_time._diff;
 }
 
 void EC20_parsecclk(void)
@@ -1278,6 +1291,24 @@ void EC20_check_init(void)
 				}
 			}
 		}
+		else if(EC20_msg._ec20_stage._state == EC20_STATE_IN_PROGRESS)
+		{
+			if(sys_time._diff - EC20_msg._ec20_stage._cmd_time >= 10)
+			{
+				if(EC20_msg._ec20_stage._failed_num <= 10)
+				{
+					EC20_failed_num();
+					EC20_do();
+				}
+				else
+				{
+					EC20_msg._ec20_event._state = EC20_STATE_FINISHED;
+					EC20_msg._ec20_event._res = EC20_RES_FAILED;
+					EC20_msg._ec20_stage._state = EC20_STATE_FINISHED;
+					EC20_msg._ec20_stage._res = EC20_RES_FAILED;
+				}
+			}
+		}
 	}
 	else if(EC20_msg._ec20_event._state == EC20_STATE_FINISHED)
 	{
@@ -1326,7 +1357,7 @@ void EC20_check_csq(void)
 			}
 			else if(EC20_msg._ec20_stage._res == EC20_RES_FAILED)
 			{
-				if(EC20_msg._ec20_stage._max_failed_num >= EC20_msg._ec20_stage._failed_num)
+				if(EC20_msg._ec20_stage._failed_num <= 5)
 				{
 					if(EC20_msg._ec20_stage._time_num <= 0)
 						EC20_do();
@@ -1338,6 +1369,16 @@ void EC20_check_csq(void)
 					EC20_msg._ec20_event._state = EC20_STATE_FINISHED;
 					EC20_msg._ec20_event._res = EC20_RES_FAILED;
 				}
+			}
+		}
+		else if(EC20_msg._ec20_stage._state == EC20_STATE_IN_PROGRESS)
+		{
+			if(sys_time._diff - EC20_msg._ec20_stage._cmd_time >= 10)
+			{
+				EC20_msg._ec20_event._state = EC20_STATE_FINISHED;
+				EC20_msg._ec20_event._res = EC20_RES_FAILED;
+				EC20_msg._ec20_stage._state = EC20_STATE_FINISHED;
+				EC20_msg._ec20_stage._res = EC20_RES_FAILED;
 			}
 		}
 	}
@@ -1392,6 +1433,16 @@ void EC20_check_cclk(void)
 					EC20_msg._ec20_event._state = EC20_STATE_FINISHED;
 					EC20_msg._ec20_event._res = EC20_RES_FAILED;
 				}
+			}
+		}
+		else if(EC20_msg._ec20_stage._state == EC20_STATE_IN_PROGRESS)
+		{
+			if(sys_time._diff - EC20_msg._ec20_stage._cmd_time >= 10)
+			{
+				EC20_msg._ec20_event._state = EC20_STATE_FINISHED;
+				EC20_msg._ec20_event._res = EC20_RES_FAILED;
+				EC20_msg._ec20_stage._state = EC20_STATE_FINISHED;
+				EC20_msg._ec20_stage._res = EC20_RES_FAILED;
 			}
 		}
 	}
@@ -1613,9 +1664,10 @@ void EC20_check_updateData(void)
 			if(EC20_msg._ec20_stage._res == EC20_RES_SUCCESS)
 			{
 				if(EC20_msg._ec20_stage._type == EC20_ATQICLOSE)
-				{
+				{					
 					if(EC20_msg._ec20_event._time_num == 1)
 					{
+						connectServerDiff = sys_time._diff;//记录连接上后台的时间，只要有连接动作 就不算卡住
 						EC20_msg._ec20_stage._type = EC20_CONNECT;
 						EC20_msg._ec20_stage._state = EC20_STATE_WAIT_START;
 						EC20_do();
@@ -1636,7 +1688,6 @@ void EC20_check_updateData(void)
 					//在这里需要修改为等待服务器发命令
 					if(EC20_msg._ec20_stage._time_num <= 0)
 					{
-						connectServerDiff = sys_time._diff;//记录连接上后台的时间
 						EC20_msg._ec20_stage._type = EC20_SEND_LOCAL;
 						EC20_init_num();
 						EC20_do();
