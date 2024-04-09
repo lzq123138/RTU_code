@@ -18,7 +18,7 @@ extern EC20_send_data_t	EC20_Send_Data[6];
 static void make_data_main(char *title,char *data1,char* data2,char* data3)
 {
 	sprintf(title,"京水RTU");
-	sprintf(data1,"传感器数据1");
+	sprintf(data1,"传感器数据");
 	sprintf(data2,"平台数据");
 	sprintf(data3,"本机数据");
 }
