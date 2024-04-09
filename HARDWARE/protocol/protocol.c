@@ -250,7 +250,7 @@ static uint8_t chezy_formula_rec(water_param_t param,double airHeight,double *fl
 	double C,R,S;
 	double topwidth,bottomwidth,realHeight,realLong,k,countHeight;
 	
-	if(param._n == 0 || param._canheight == 0 || (param._bottomwidth == param._topwidth == 0))
+	if(param._n == 0 || param._canheight == 0 || (param._bottomwidth == param._topwidth && param._bottomwidth == 0))
 		return 1;
 	
 	if(param._deep_water < 0)
@@ -270,10 +270,11 @@ static uint8_t chezy_formula_rec(water_param_t param,double airHeight,double *fl
 	}
 	else
 	{
-		k = (param._bottomwidth - param._topwidth) / param._canheight / 2.0;
-		bottomwidth = param._bottomwidth - 2 * k * param._deep_water;
-		topwidth = param._bottomwidth - 2 * k * realHeight;
-		realLong = pow((countHeight * countHeight + (bottomwidth - topwidth) * (bottomwidth - topwidth) / 4.0),0.5);
+		k = (param._bottomwidth - param._topwidth) / param._canheight;
+		bottomwidth = param._bottomwidth - k * param._deep_water;
+		topwidth = param._bottomwidth - k * realHeight;
+		R = (bottomwidth - topwidth) * (bottomwidth - topwidth) / 4.0 + param._canheight * param._canheight;
+		realLong = pow(R,0.5) * countHeight / param._canheight;
 	}
 	
 	S = (bottomwidth + topwidth) * countHeight / 2.0;
