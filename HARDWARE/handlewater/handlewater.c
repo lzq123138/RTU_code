@@ -4,6 +4,7 @@
 extern device_manager_t	device_manager;
 extern uint8_t RS485Mode;
 extern uint8_t RS485_RX_CNT;
+extern device_uart_config_t	currentConfig;
 
 extern rs485_state_t rs485State;
 
@@ -34,6 +35,13 @@ static uint8_t flow_cmd7[] = {0x04,0x00,0x00,0x00,0x14};
 static uint8_t flow_cmd8[] = {0x03,0x00,0x5A,0x00,0x0A};
 
 static uint8_t flow_cmd9[] = {0x04,0x10,0x10,0x00,0x12};
+
+static uint8_t flow_cmdA[] = {0x03,0x00,0x00,0x00,0x04};
+
+static uint8_t flowRate_cmdB[] = {0x03,0x02,0x52,0x00,0x02};
+static uint8_t flow_cmdB[] = {0x03,0x03,0x08,0x00,0x04};
+
+static uint8_t flowspeed_cmd1[] = {0x03,0x00,0x08,0x00,0x01};
 
 
 static void handle_waterlevel_protocol1(uint8_t index)
@@ -123,6 +131,10 @@ static void handle_water_flow_protocolOnce(uint8_t index,uint8_t protocol)
 			break;
 		case FLOWMETER_JINYI:
 			Modbus_Send_cmd(flow_cmd9,5,device_manager._devices[index]._device_number);
+			break;
+		case FLOWMETER_JDLY:
+			Modbus_Send_cmd(flow_cmdA,5,device_manager._devices[index]._device_number);
+			break;
 		default:
 			return_flag = 1;
 			break;
@@ -159,6 +171,9 @@ static void handle_water_flow_protocol1and2(uint8_t index,uint8_t protocol)
 			case FLOWMETER_PROTOCOL6:
 				Modbus_Send_cmd(flowRate_cmd6,5,device_manager._devices[index]._device_number);
 				break;
+			case FLOWMETER_HZZH:
+				Modbus_Send_cmd(flowRate_cmdB,5,device_manager._devices[index]._device_number);
+				break;
 			default:
 				error = 1;
 				break;
@@ -186,6 +201,9 @@ static void handle_water_flow_protocol1and2(uint8_t index,uint8_t protocol)
 			case FLOWMETER_PROTOCOL6:
 				Modbus_Send_cmd(flow_cmd6,5,device_manager._devices[index]._device_number);
 				break;
+			case FLOWMETER_HZZH:
+				Modbus_Send_cmd(flow_cmdB,5,device_manager._devices[index]._device_number);
+				break;
 			default:
 				error = 1;
 				break;
@@ -200,6 +218,25 @@ static void handle_water_flow_protocol1and2(uint8_t index,uint8_t protocol)
 		rs485State._cmd_time = sys_time._diff;
 	}
 		
+}
+
+static void handle_flowspeed_once(uint8_t index,uint8_t protocol)
+{
+	uint8_t return_flag = 0;
+	switch(protocol)
+	{
+		case FLOWSPEED_MSYX1:
+			Modbus_Send_cmd(flowspeed_cmd1,5,device_manager._devices[index]._device_number);
+			break;
+		default:
+			return_flag = 1;
+			break;
+			
+	}
+	if(return_flag == 1)
+		return;
+	rs485State._flag = 1;
+	rs485State._cmd_time = sys_time._diff;	
 }
 
 static void handle_waterlevel(uint8_t index)
@@ -234,12 +271,30 @@ static void handle_flow(uint8_t index)
 		case FLOWMETER_PROTOCOL4:
 		case FLOWMETER_PROTOCOL5:
 		case FLOWMETER_PROTOCOL6:
+		case FLOWMETER_HZZH:
 			handle_water_flow_protocol1and2(index,device_manager._devices[index]._device_protocol);
 			break;
 		case FLOWMETER_PROTOCOL7:
 		case FLOWMETER_PROTOCOL8:
 		case FLOWMETER_JINYI:
+		case FLOWMETER_JDLY:
 			handle_water_flow_protocolOnce(index,device_manager._devices[index]._device_protocol);
+			break;
+		default:
+			break;
+	}
+}
+
+static void handle_flowspeed(uint8_t index)
+{
+	//待补充
+	if(index >= device_manager._device_count)
+		return;
+	
+	switch(device_manager._devices[index]._device_protocol)
+	{
+		case FLOWSPEED_MSYX1:
+			handle_flowspeed_once(index,device_manager._devices[index]._device_protocol);
 			break;
 		default:
 			break;
@@ -251,6 +306,12 @@ void handle_water_data(uint8_t index)
 	if(index >= device_manager._device_count)
 		return;
 	
+	if(checkDeviceUartConfigIsEqual(&device_manager._devices[index]._uart_config,&currentConfig) == 0)
+	{
+		RS485Config(device_manager._devices[index]._uart_config._bound,device_manager._devices[index]._uart_config._wordlength,
+		device_manager._devices[index]._uart_config._stopbit,device_manager._devices[index]._uart_config._parity);
+	}
+	
 	//这里切换485口
 	switchRS485Mode(1);
 	switch(device_manager._devices[index]._device_type)
@@ -260,6 +321,9 @@ void handle_water_data(uint8_t index)
 			break;
 		case DEVICE_FLOWMETER:
 			handle_flow(index);
+			break;
+		case DEVICE_FLOWSPEED:
+			handle_flowspeed(index);
 			break;
 		default:
 			break;
@@ -291,17 +355,27 @@ static void readWaterLevelPro1(uint8_t *data,uint16_t size,uint8_t index)
 	device_manager._devices[index]._water_data._waterlevel = device_manager._devices[index]._water_param._insheight - device_manager._devices[index]._water_data._airHeight;
 	if(device_manager._devices[index]._water_data._waterlevel < 0)
 			device_manager._devices[index]._water_data._waterlevel = 0;
-	ret = Chezy_formula(device_manager._devices[index]._water_param,device_manager._devices[index]._water_data._airHeight,&device_manager._devices[index]._water_data._flowspeed,
-	&device_manager._devices[index]._water_data._flowRate);	
-	if(ret != 0)
+	if(device_manager._devices[index]._device_formula == FORMULA_XIECAI)
+	{
+		ret = Chezy_formula(device_manager._devices[index]._water_param,device_manager._devices[index]._water_data._airHeight,&device_manager._devices[index]._water_data._flowspeed,
+		&device_manager._devices[index]._water_data._flowRate);	
+		if(ret != 0)
+		{
+			device_manager._devices[index]._water_data._flowspeed = 0;
+			device_manager._devices[index]._water_data._flowRate = 0;
+		}
+	}
+	else
 	{
 		device_manager._devices[index]._water_data._flowspeed = 0;
 		device_manager._devices[index]._water_data._flowRate = 0;
 	}
 	
+	
 	rs485State._flag = 0;
 	rs485State._cmd_time = sys_time._diff;
 	device_manager._devices[index]._failed_num = 0;
+	rs485State._last_res = 0;
 	device_manager._devices[index]._device_com_state = 0x01;
 }
 
@@ -365,6 +439,7 @@ static void readFlowJingyi(uint8_t *data,uint16_t size,uint8_t index)
 	
 	rs485State._flag = 0;
 	rs485State._cmd_time = sys_time._diff;
+	rs485State._last_res = 0;
 	device_manager._devices[index]._device_com_state = 0x01;
 	device_manager._devices[index]._failed_num = 0;
 }
@@ -404,6 +479,7 @@ static void readFlowProHuaLong(uint8_t *data,uint16_t size,uint8_t index)
 	
 	rs485State._flag = 0;
 	rs485State._cmd_time = sys_time._diff;
+	rs485State._last_res = 0;
 	device_manager._devices[index]._device_com_state = 0x01;
 	device_manager._devices[index]._failed_num = 0;
 }
@@ -450,6 +526,7 @@ static void readFlowPro7(uint8_t *data,uint16_t size,uint8_t index)
 	
 	rs485State._flag = 0;
 	rs485State._cmd_time = sys_time._diff;
+	rs485State._last_res = 0;
 	device_manager._devices[index]._device_com_state = 0x01;
 	device_manager._devices[index]._failed_num = 0;
 	
@@ -539,6 +616,7 @@ static void readFlowJianHeng(uint8_t *data,uint16_t size,uint8_t index)
 	}
 	
 	rs485State._cmd_time = sys_time._diff;
+	rs485State._last_res = 0;
 	device_manager._devices[index]._device_com_state = 0x01;
 	device_manager._devices[index]._failed_num = 0;
 }
@@ -634,6 +712,96 @@ static void readFlowMeterNormal(uint8_t *data,uint16_t size,uint8_t index,uint8_
 	}
 	
 	rs485State._cmd_time = sys_time._diff;
+	rs485State._last_res = 0;
+	device_manager._devices[index]._device_com_state = 0x01;
+	device_manager._devices[index]._failed_num = 0;
+}
+
+static void readFlowHZZH(uint8_t *data,uint16_t size,uint8_t index)
+{
+	uint32_t byte32 = 0;
+	float f1;
+	uint8_t num[8] = {0};
+	uint8_t i = 0;
+	
+	if(index >= device_manager._device_count)
+		return;
+	
+	if(data[2] == 0x04)
+	{
+		num[0] = data[3];
+		num[1] = data[4];
+		num[2] = data[5];
+		num[3] = data[6];
+		
+		f1 = Hex2Float(num);
+		device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+		rs485State._stage |= 0x01;
+		
+	}
+	else
+	{
+		byte32 = 0;
+		
+		for(i = 3;i < 7;i++)
+		{
+			byte32 = byte32 << 8 | data[i];
+		}
+		device_manager._devices[index]._water_data._flow = byte32 * 10000000;
+		
+		byte32 = 0;
+		for(i = 7;i < 11;i++)
+		{
+			byte32 = byte32 << 8 | data[i];
+		}
+		device_manager._devices[index]._water_data._flow += byte32;
+		rs485State._stage |= 0x02;
+	}
+	
+	if((rs485State._stage & 0x01) == 0 || (rs485State._stage & 0x02) == 0)
+	{
+		handle_water_data(index);		
+	}
+	else
+	{
+		rs485State._flag = 0;
+	}
+	
+	rs485State._cmd_time = sys_time._diff;
+	rs485State._last_res = 0;
+	device_manager._devices[index]._device_com_state = 0x01;
+	device_manager._devices[index]._failed_num = 0;
+}
+
+static void readFlowJDLY(uint8_t *data,uint16_t size,uint8_t index)
+{
+	uint32_t byte32 = 0;
+	uint8_t i;
+	
+	if(index >= device_manager._device_count)
+		return;
+	
+	if(CheckDataLegality(data,size,0xFF) == 0)
+		return;
+	
+	//累计流量
+	for(i = 3;i < 7;i++)
+	{
+		byte32 = byte32 << 8 | data[i];
+ 	}
+	device_manager._devices[index]._water_data._flow = byte32 * 0.001;
+	
+	//瞬时流量
+	byte32 = 0;
+	for(i = 7;i < 11;i++)
+	{
+		byte32 = byte32 << 8 | data[i];
+	}
+	device_manager._devices[index]._water_data._flowspeed = (byte32 * 0.001) / 3600.0;
+	
+	rs485State._flag = 0;
+	rs485State._cmd_time = sys_time._diff;
+	rs485State._last_res = 0;
 	device_manager._devices[index]._device_com_state = 0x01;
 	device_manager._devices[index]._failed_num = 0;
 }
@@ -666,6 +834,12 @@ static void readFlowMeter(uint8_t *data,uint16_t size,uint8_t index)
 		case FLOWMETER_JINYI:
 			readFlowJingyi(data,size,index);
 			break;
+		case FLOWMETER_JDLY:
+			readFlowJDLY(data,size,index);
+			break;
+		case FLOWMETER_HZZH:
+			readFlowHZZH(data,size,index);
+			break;
 		default:
 			break;
 	}
@@ -674,6 +848,44 @@ static void readFlowMeter(uint8_t *data,uint16_t size,uint8_t index)
 	device_manager._devices[index]._water_data._waterlevel = 0;
 	device_manager._devices[index]._water_data._flowspeed = 0;
 }
+
+
+static void readFlowSpeedMsyx1(uint8_t *data,uint16_t size,uint8_t index)
+{
+	uint16_t byte16;
+	
+	if(index >= device_manager._device_count)
+		return;
+	
+	if(CheckDataLegality(data,size,0xFF) == 0)
+		return;
+	
+	byte16 = data[3] << 8 | data[4];
+	
+	device_manager._devices[index]._water_data._flowspeed = byte16 / 1000.0;
+	
+	rs485State._flag = 0;
+	rs485State._cmd_time = sys_time._diff;
+	device_manager._devices[index]._failed_num = 0;
+	rs485State._last_res = 0;
+	device_manager._devices[index]._device_com_state = 0x01;
+}
+
+static void readFlowSpeed(uint8_t *data,uint16_t size,uint8_t index)
+{
+	if(index >= device_manager._device_count)
+		return;
+	
+	switch(device_manager._devices[index]._device_protocol)
+	{
+		case FLOWSPEED_MSYX1:
+			readFlowSpeedMsyx1(data,size,index);
+			break;
+		default:
+			break;
+	}
+}
+
 void readWaterData(uint8_t *data,uint16_t size,uint8_t index)
 {
 	if(rs485State._flag)
@@ -685,6 +897,9 @@ void readWaterData(uint8_t *data,uint16_t size,uint8_t index)
 				break;
 			case DEVICE_FLOWMETER:
 				readFlowMeter(data,size,index);
+				break;
+			case DEVICE_FLOWSPEED:
+				readFlowSpeed(data,size,index);
 				break;
 			default:
 				break;
@@ -698,6 +913,7 @@ static void failedWaterLevelPro1(uint8_t index)
 	
 	if(rs485State._failed_num >= 3)
 	{
+		rs485State._last_res = 1;
 		device_manager._devices[index]._device_com_state = 0x02;
 		device_manager._devices[index]._water_data._airHeight = 0;
 		device_manager._devices[index]._water_data._waterlevel = 0;
@@ -730,6 +946,7 @@ static void failedFlowMeterReadOnce(uint8_t index)
 	
 	if(rs485State._failed_num >= 3)
 	{
+		rs485State._last_res = 1;
 		device_manager._devices[index]._device_com_state = 0x02;
 		device_manager._devices[index]._water_data._airHeight = 0;
 		device_manager._devices[index]._water_data._waterlevel = 0;
@@ -753,6 +970,7 @@ static void failedFlowMeterNormal(uint8_t index)
 	{
 		if(rs485State._failed_num >= 3)
 		{
+			rs485State._last_res = 1;
 			device_manager._devices[index]._device_com_state = 0x02;
 			device_manager._devices[index]._water_data._airHeight = 0;
 			device_manager._devices[index]._water_data._waterlevel = 0;
@@ -771,6 +989,7 @@ static void failedFlowMeterNormal(uint8_t index)
 	{
 		if(rs485State._failed_num >= 3)
 		{
+			rs485State._last_res = 1;
 			device_manager._devices[index]._device_com_state = 0x02;
 			device_manager._devices[index]._water_data._airHeight = 0;
 			device_manager._devices[index]._water_data._waterlevel = 0;
@@ -802,12 +1021,47 @@ static void failedFlowMeter(uint8_t index)
 		case FLOWMETER_PROTOCOL4:
 		case FLOWMETER_PROTOCOL5:
 		case FLOWMETER_PROTOCOL6:
+		case FLOWMETER_HZZH:
 			failedFlowMeterNormal(index);
 			break;
 		case FLOWMETER_PROTOCOL7:
 		case FLOWMETER_PROTOCOL8:
 		case FLOWMETER_JINYI:
+		case FLOWMETER_JDLY:
 			failedFlowMeterReadOnce(index);
+			break;
+		default:
+			break;
+	}
+}
+
+static void failedFlowSpeedOnce(uint8_t index)
+{
+	rs485State._failed_num += 1;
+	
+	if(rs485State._failed_num >= 3)
+	{
+		rs485State._last_res = 1;
+		device_manager._devices[index]._device_com_state = 0x02;
+		device_manager._devices[index]._water_data._airHeight = 0;
+		device_manager._devices[index]._water_data._waterlevel = 0;
+		device_manager._devices[index]._water_data._flowspeed = 0;
+		device_manager._devices[index]._water_data._flowRate = 0;
+		
+		rs485State._flag = 0;
+	}
+	else
+	{
+		handle_water_data(index);
+	}
+}
+
+static void failedFlowSpeed(uint8_t index)
+{
+	switch(device_manager._devices[index]._device_protocol)
+	{
+		case FLOWSPEED_MSYX1:
+			failedFlowSpeedOnce(index);
 			break;
 		default:
 			break;
@@ -829,6 +1083,8 @@ void failedWaterData(uint8_t index)
 		case DEVICE_FLOWMETER:
 			failedFlowMeter(index);
 			break;
+		case DEVICE_FLOWSPEED:
+			failedFlowSpeed(index);
 		default:
 			break;
 	}

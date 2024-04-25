@@ -27,41 +27,8 @@ Project File Date:  03/04/2024
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\keil5\ARM\ARMCC5\Bin'
 Build target 'RS485'
-compiling lcdhandle.c...
-..\HARDWARE\LCD\lcdhandle.c(20): warning:  #223-D: function "sprintf" declared implicitly
-  	sprintf(title,"京水RTU");
-..\HARDWARE\LCD\lcdhandle.c(33): warning:  #223-D: function "sprintf" declared implicitly
-  	sprintf(title,"传感器数据");
-..\HARDWARE\LCD\lcdhandle.c(88): warning:  #223-D: function "sprintf" declared implicitly
-  	sprintf(title,"传感器%d",index + 1);
-..\HARDWARE\LCD\lcdhandle.c(192): warning:  #223-D: function "sprintf" declared implicitly
-  	sprintf(title,"平台数据");
-..\HARDWARE\LCD\lcdhandle.c(244): warning:  #223-D: function "sprintf" declared implicitly
-  	sprintf(title,"平台%d",index + 1);
-..\HARDWARE\LCD\lcdhandle.c(308): warning:  #186-D: pointless comparison of unsigned integer with zero
-  	if(EC20_msg._csq1 <0 || EC20_msg._csq1 > 31)
-..\HARDWARE\LCD\lcdhandle.c(314): warning:  #223-D: function "sprintf" declared implicitly
-  	sprintf(title,"本地数据");
-..\HARDWARE\LCD\lcdhandle.c(304): warning:  #177-D: variable "index"  was declared but never referenced
-  	uint8_t i,index,type;
-..\HARDWARE\LCD\lcdhandle.c(304): warning:  #177-D: variable "type"  was declared but never referenced
-  	uint8_t i,index,type;
-..\HARDWARE\LCD\lcdhandle.c(413): warning:  #223-D: function "sprintf" declared implicitly
-  		sprintf(data3,"下载进度:%3d%%",i);
-..\HARDWARE\LCD\lcdhandle.c(461): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "unsigned char *"
-  	display_GB2312_string(1,1,title,LCD_DISPLAY_FORWARD);
-..\HARDWARE\LCD\lcdhandle.c(473): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "unsigned char *"
-  				display_GB2312_string(3,1,data1,mode);
-..\HARDWARE\LCD\lcdhandle.c(476): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "unsigned char *"
-  				display_GB2312_string(5,1,data2,mode);
-..\HARDWARE\LCD\lcdhandle.c(479): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "unsigned char *"
-  				display_GB2312_string(7,1,data3,mode);
-..\HARDWARE\LCD\lcdhandle.c: 14 warnings, 0 errors
-linking...
-Program Size: Code=97194 RO-data=1270 RW-data=336 ZI-data=29768  
-FromELF: creating hex file...
 After Build - User command #1: D:\keil5\ARM\ARMCC\bin\fromelf.exe --bin --output ../OBJ/JSRTU_V1.bin  ../OBJ/JSRTU_V1.axf
-"..\OBJ\JSRTU_V1.axf" - 0 Error(s), 14 Warning(s).
+"..\OBJ\JSRTU_V1.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -75,7 +42,7 @@ Package Vendor: Keil
   D:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

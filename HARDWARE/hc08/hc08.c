@@ -23,6 +23,16 @@ extern uint8_t				ChangeFlag;
 extern rs485_state_t 		rs485State;
 extern uint8_t 				debugFlag;
 
+static const bounds[] = {1200,2400,4800,9600,14400,19200,38400,56000,57600,115200,128000,230400,256000,460800};
+//								8b     9b
+static const wordLengths[] = {0x0000,0x1000};
+
+//                            1      0.5    2     1.5
+static const stopbits[] = {0x0000,0x1000,0x2000,0x3000};
+
+//                          无      偶    奇
+static const paritys[] = {0x0000,0x0400,0x0600};
+
 void hc08_init(uint32_t bound)
 {
 	//GPIO端口设置
@@ -252,10 +262,93 @@ static uint16_t data_to_platform(uint16_t index,uint8_t *data,uint8_t setUser)
 	return index;
 }
 
+//清空历史数据
+static void extendDataCase1(uint8_t *data)
+{
+	uint8_t needClearFlag = 1;
+	uint8_t i;
+	
+	for(i = 1;i < 8;i++)
+	{
+		if(battery_data._extend_data[i] != 0)
+		{
+			needClearFlag = 0;
+			break;
+		}			
+	}
+	
+	if(SDCardInitSuccessFlag)
+	{
+		if(needClearFlag)
+		{
+			clearHistoryData();
+		}
+	}
+}
+
+//修改后台ip地址
+static void extendDataCase2(uint8_t *data)
+{
+	uint8_t i;
+	if(battery_data._extend_data[7] == 0xFF)
+	{
+		for(i = 1;i < 5;i++)
+		{
+			platform_manager._ipv4[i - 1] = battery_data._extend_data[i];
+		}
+		platform_manager._port = battery_data._extend_data[5] << 8 | battery_data._extend_data[6];
+	}
+}
+
+//修改平台发送类型
+static void extendDataCase3(uint8_t *data)
+{
+	uint8_t i;
+	if(battery_data._extend_data[6] = 0xFF && battery_data._extend_data[7] == 0xFF)
+	{
+		i = battery_data._extend_data[1];
+		platform_manager._platforms[i]._send_data_type = (battery_data._extend_data[2] << 8) | battery_data._extend_data[3]; 
+	}
+}
+
+//是否开启debug模式
+static void extendDataCase4(uint8_t *data)
+{
+	if(battery_data._extend_data[6] = 0xFF && battery_data._extend_data[7] == 0xFF)
+	{
+		if(battery_data._extend_data[1] == 0x01)
+		{
+			debugFlag = 1;
+		}
+		else
+		{
+			debugFlag = 0;
+		}
+	}
+}
+
+//修改传感器的参数
+static void extendDataCase5(uint8_t *data)
+{
+	uint8_t index;
+	if(data[6] == 0xFF && data[7] == 0xFF)
+	{
+		index = data[1];
+		
+		if(index >= device_manager._device_count)
+			return;
+		
+		device_manager._devices[index]._uart_config._bound = bounds[data[2]];
+		device_manager._devices[index]._uart_config._wordlength = wordLengths[data[3]];
+		device_manager._devices[index]._uart_config._stopbit = stopbits[data[4]];
+		device_manager._devices[index]._uart_config._parity = paritys[data[5]];
+	}
+}
+
 static uint16_t data_to_local(uint16_t index,uint8_t *data)
 {
 	uint8_t i;
-	uint8_t needClearFlag = 1;
+
 	
 	battery_data._power_mode = data[index++];//外部供电方式
 	//扩展数据
@@ -265,60 +358,27 @@ static uint16_t data_to_local(uint16_t index,uint8_t *data)
 	}
 	
 	//作者通道
-	if(battery_data._extend_data[0] == 0x01)
-	{//01 00 00 00 00 00 00 00 代表清空历史数据
-		needClearFlag = 1;
-		for(i = 1;i < 8;i++)
-		{
-			if(battery_data._extend_data[i] != 0)
-			{
-				needClearFlag = 0;
-				break;
-			}			
-		}
-		if(SDCardInitSuccessFlag)
-		{
-			if(needClearFlag)
-			{
-				clearHistoryData();
-			}
-		}
-	}
-	else if(battery_data._extend_data[0] == 0x02)
-	{//02 ip1 ip2 ip3 ip4 port port 00 代表设置远程管理平台的ip
-		if(battery_data._extend_data[7] == 0xFF)
-		{
-			for(i = 1;i < 5;i++)
-			{
-				platform_manager._ipv4[i - 1] = battery_data._extend_data[i];
-			}
-			platform_manager._port = battery_data._extend_data[5] << 8 | battery_data._extend_data[6];
-		}
-	}
-	else if(battery_data._extend_data[0] == 0x03)
-	{
-		if(battery_data._extend_data[6] = 0xFF && battery_data._extend_data[7] == 0xFF)
-		{
-			i = battery_data._extend_data[1];
-			platform_manager._platforms[i]._send_data_type = (battery_data._extend_data[2] << 8) | battery_data._extend_data[3]; 
-		}
-	}
-	else if(battery_data._extend_data[0] == 0x04)
-	{
-		if(battery_data._extend_data[6] = 0xFF && battery_data._extend_data[7] == 0xFF)
-		{
-			if(battery_data._extend_data[1] == 0x01)
-			{
-				debugFlag = 1;
-			}
-			else
-			{
-				debugFlag = 0;
-			}
-		}
-	}
 	
-	battery_data._extend_data[0] = 0xFF;
+	switch(battery_data._extend_data[0])
+	{
+		case 0x01:
+			extendDataCase1(battery_data._extend_data);//代表清空历史数据判断
+			break;
+		case 0x02:
+			extendDataCase2(battery_data._extend_data);//修改后台ip地址
+			break;
+		case 0x03:
+			extendDataCase3(battery_data._extend_data);//代表修改平台发送类型
+			break;
+		case 0x04:
+			extendDataCase4(battery_data._extend_data);//代表是否开启debug模式
+			break;
+		case 0x05:
+			extendDataCase5(battery_data._extend_data);//代表修改传感器波特率设置
+			break;
+		default:
+			break;
+	}
 	
 	return index;
 }
@@ -513,7 +573,10 @@ uint16_t createDeviceRealData(uint8_t *data)
 		appendUint32ToData(data,&size,byte);
 		byte = device_manager._devices[i]._water_data._waterlevel * 1000;//水位
 		appendUint32ToData(data,&size,byte);
-		byte = device_manager._devices[i]._water_data._flowRate * 1000 * 3600.0;//瞬时流量
+		if(device_manager._devices[i]._device_type == DEVICE_FLOWSPEED && device_manager._devices[i]._device_protocol == FLOWSPEED_MSYX1)
+			byte = device_manager._devices[i]._water_data._flowspeed * 1000;
+		else
+			byte = device_manager._devices[i]._water_data._flowRate * 1000 * 3600.0;//瞬时流量
 		appendUint32ToData(data,&size,byte);
 		if(device_manager._devices[i]._water_data._flow < 0)
 			byte = 0;
@@ -840,7 +903,7 @@ static void send_device_protoclo_data(void)
 	append_header_to_data(data,&size,1);//1-->设备协议数据
 
 	//设备数据
-	data[size++] = 0x02;//目前是两种设备类型数
+	data[size++] = 0x03;//目前是两种设备类型数
 	
 	data[size++] = DEVICE_WATERLEVEL;//设备类型一编号
 	sprintf(tmp_data,"水位计");//设备一名称
@@ -859,7 +922,7 @@ static void send_device_protoclo_data(void)
 	sprintf(tmp_data,"流量计");
 	appendStringToData(data,&size,tmp_data);
 	
-	data[size++] = 0x09;//设备二 包含8种协议
+	data[size++] = 0x0B;//设备二 包含11种协议
 	data[size++] = FLOWMETER_PROTOCOL1;//协议一编号
 	sprintf(tmp_data,"施耐德电磁");//协议一名称
 	appendStringToData(data,&size,tmp_data);
@@ -896,12 +959,34 @@ static void send_device_protoclo_data(void)
 	sprintf(tmp_data,"京仪电磁");//协议9名称
 	appendStringToData(data,&size,tmp_data);
 	
+	data[size++] = FLOWMETER_JDLY;//协议10编号
+	sprintf(tmp_data,"佳德超声");//协议10名称
+	appendStringToData(data,&size,tmp_data);
+	
+	data[size++] = FLOWMETER_HZZH;//协议11编号
+	sprintf(tmp_data,"振华电磁");//协议11名称
+	appendStringToData(data,&size,tmp_data);
+	
+	data[size++] = DEVICE_FLOWSPEED;//设备类型三编号
+	sprintf(tmp_data,"流速仪");//设备一名称
+	appendStringToData(data,&size,tmp_data);//把名字追加到数组里
+	
+	data[size++] = 0x01;//设备三包含一种协议
+	data[size++] = FLOWSPEED_MSYX1;//协议一编号
+	sprintf(tmp_data,"京水流速仪");
+	appendStringToData(data,&size,tmp_data);
+	
 	
 	//设备数据走完 计算公式数据
-	data[size++] = 0x01;//目前只有一种计算公式
+	data[size++] = 0x02;//目前只有二种计算公式	
 	data[size++] = FORMULA_XIECAI;//计算公式一编号
 	sprintf(tmp_data,"谢才公式");
 	appendStringToData(data,&size,tmp_data);
+	
+	data[size++] = FORMULA_NONE;//计算公式二编号
+	sprintf(tmp_data,"无计算");
+	appendStringToData(data,&size,tmp_data);
+	
 	
 	//计算公式走完，渠形
 	data[size++] = 0x03;//目前共有三种渠形
@@ -986,7 +1071,10 @@ static void send_device_real_to_data(void)
 		//实时数据
 		byte = device_manager._devices[i]._water_data._waterlevel * 1000;//水位
 		appendUint32ToData(data,&size,byte);
-		byte = device_manager._devices[i]._water_data._flowRate * 1000 * 3600.0;//瞬时流量
+		if(device_manager._devices[i]._device_type == DEVICE_FLOWSPEED && device_manager._devices[i]._device_protocol == FLOWSPEED_MSYX1)
+			byte = device_manager._devices[i]._water_data._flowspeed * 1000;
+		else
+			byte = device_manager._devices[i]._water_data._flowRate * 1000 * 3600.0;//瞬时流量
 		appendUint32ToData(data,&size,byte);
 		byte = device_manager._devices[i]._water_data._flow;//流量
 		appendUint32ToData(data,&size,byte);

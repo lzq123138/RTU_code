@@ -1,5 +1,5 @@
 Dependencies for Project 'RS485', Target 'RS485': (DO NOT MODIFY !)
-F (.\main.c)(0x65F7949C)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x6629BB1A)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 I (..\USER\stm32f4xx.h)(0x542BA483)
 I (..\CORE\core_cm4.h)(0x658BE0FE)
@@ -40,9 +40,9 @@ I (..\SYSTEM\usart\usart.h)(0x64FEA60C)
 I (D:\keil5\ARM\ARMCC5\include\stdio.h)(0x5E8E3CC2)
 I (..\HARDWARE\LED\led.h)(0x53B53723)
 I (..\HARDWARE\LCD\lcd.h)(0x6507B1C5)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (..\HARDWARE\KEY\key.h)(0x650802D5)
-I (..\HARDWARE\RS485\rs485.h)(0x656E9730)
+I (..\HARDWARE\RS485\rs485.h)(0x6628ACDA)
 I (..\HARDWARE\MODBUS\modbus.h)(0x65B1D828)
 I (..\HARDWARE\TIMER\timer.h)(0x64EEF593)
 I (..\HARDWARE\EC20\ec20.h)(0x6566ED78)
@@ -166,7 +166,7 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
-F (..\HARDWARE\RS485\rs485.c)(0x6604CF1D)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\rs485.o --omf_browse ..\obj\rs485.crf --depend ..\obj\rs485.d)
+F (..\HARDWARE\RS485\rs485.c)(0x6628C543)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\rs485.o --omf_browse ..\obj\rs485.crf --depend ..\obj\rs485.d)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 I (..\USER\stm32f4xx.h)(0x542BA483)
 I (..\CORE\core_cm4.h)(0x658BE0FE)
@@ -202,8 +202,9 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
-I (..\HARDWARE\RS485\rs485.h)(0x656E9730)
+I (..\HARDWARE\RS485\rs485.h)(0x6628ACDA)
 I (..\SYSTEM\delay\delay.h)(0x53B7797C)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 F (..\HARDWARE\LCD\lcd.c)(0x657F9B45)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\lcd.o --omf_browse ..\obj\lcd.crf --depend ..\obj\lcd.d)
 I (..\HARDWARE\LCD\lcd.h)(0x6507B1C5)
 I (..\USER\stm32f4xx.h)(0x542BA483)
@@ -240,7 +241,7 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (..\SYSTEM\delay\delay.h)(0x53B7797C)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 F (..\HARDWARE\KEY\key.c)(0x656E78F1)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\key.o --omf_browse ..\obj\key.crf --depend ..\obj\key.d)
@@ -281,7 +282,7 @@ I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\SYSTEM\delay\delay.h)(0x53B7797C)
-F (..\HARDWARE\TIMER\timer.c)(0x65FCD8AE)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\timer.o --omf_browse ..\obj\timer.crf --depend ..\obj\timer.d)
+F (..\HARDWARE\TIMER\timer.c)(0x661DC888)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\timer.o --omf_browse ..\obj\timer.crf --depend ..\obj\timer.d)
 I (..\HARDWARE\TIMER\timer.h)(0x64EEF593)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 I (..\USER\stm32f4xx.h)(0x542BA483)
@@ -319,7 +320,7 @@ I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\HARDWARE\LED\led.h)(0x53B53723)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (..\HARDWARE\queue\liuqueue.h)(0x65B20690)
 I (..\HARDWARE\SD\sdhandle.h)(0x65892263)
 I (..\HARDWARE\SD\sdio_sdcard.h)(0x65DC317E)
@@ -362,12 +363,12 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
-I (..\HARDWARE\RS485\rs485.h)(0x656E9730)
+I (..\HARDWARE\RS485\rs485.h)(0x6628ACDA)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 I (D:\keil5\ARM\ARMCC5\include\string.h)(0x5E8E3CC2)
 I (..\SYSTEM\delay\delay.h)(0x53B7797C)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
-F (..\HARDWARE\EC20\EC20.c)(0x660B6A0A)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\ec20.o --omf_browse ..\obj\ec20.crf --depend ..\obj\ec20.d)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
+F (..\HARDWARE\EC20\EC20.c)(0x6628C8E1)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\ec20.o --omf_browse ..\obj\ec20.crf --depend ..\obj\ec20.d)
 I (..\HARDWARE\EC20\ec20.h)(0x6566ED78)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 I (..\USER\stm32f4xx.h)(0x542BA483)
@@ -407,7 +408,7 @@ I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\SYSTEM\delay\delay.h)(0x53B7797C)
 I (..\SYSTEM\usart\usart.h)(0x64FEA60C)
 I (D:\keil5\ARM\ARMCC5\include\stdio.h)(0x5E8E3CC2)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (D:\keil5\ARM\ARMCC5\include\stdlib.h)(0x5E8E3CC2)
 I (D:\keil5\ARM\ARMCC5\include\string.h)(0x5E8E3CC2)
 I (..\HARDWARE\IWDG\iwdg.h)(0x654DE0AB)
@@ -415,7 +416,7 @@ I (..\HARDWARE\queue\liuqueue.h)(0x65B20690)
 I (..\HARDWARE\hc08\hc08.h)(0x6567E405)
 I (..\HARDWARE\SD\sdhandle.h)(0x65892263)
 I (..\HARDWARE\SD\sdio_sdcard.h)(0x65DC317E)
-I (..\HARDWARE\RS485\rs485.h)(0x656E9730)
+I (..\HARDWARE\RS485\rs485.h)(0x6628ACDA)
 I (..\HARDWARE\flash\flash.h)(0x657170D9)
 F (..\HARDWARE\LCD\lcd.h)(0x6507B1C5)()
 F (..\HARDWARE\IWDG\iwdg.c)(0x654DE0C9)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\iwdg.o --omf_browse ..\obj\iwdg.crf --depend ..\obj\iwdg.d)
@@ -456,7 +457,7 @@ I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 F (..\HARDWARE\IWDG\iwdg.h)(0x654DE0AB)()
-F (..\HARDWARE\protocol\protocol.c)(0x66148E68)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\protocol.o --omf_browse ..\obj\protocol.crf --depend ..\obj\protocol.d)
+F (..\HARDWARE\protocol\protocol.c)(0x6628AB44)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\protocol.o --omf_browse ..\obj\protocol.crf --depend ..\obj\protocol.d)
 I (..\USER\stm32f4xx.h)(0x542BA483)
 I (..\CORE\core_cm4.h)(0x658BE0FE)
 I (D:\keil5\ARM\ARMCC5\include\stdint.h)(0x5E8E3CC2)
@@ -491,10 +492,10 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (D:\keil5\ARM\ARMCC5\include\math.h)(0x5E8E3CC2)
-F (..\HARDWARE\protocol\protocol.h)(0x660B6930)()
-F (..\HARDWARE\hc08\hc08.c)(0x660B69C9)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\hc08.o --omf_browse ..\obj\hc08.crf --depend ..\obj\hc08.d)
+F (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)()
+F (..\HARDWARE\hc08\hc08.c)(0x6629C7E8)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\hc08.o --omf_browse ..\obj\hc08.crf --depend ..\obj\hc08.d)
 I (..\HARDWARE\hc08\hc08.h)(0x6567E405)
 I (..\USER\stm32f4xx.h)(0x542BA483)
 I (..\CORE\core_cm4.h)(0x658BE0FE)
@@ -531,7 +532,7 @@ I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\HARDWARE\queue\liuqueue.h)(0x65B20690)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (D:\keil5\ARM\ARMCC5\include\math.h)(0x5E8E3CC2)
 I (..\HARDWARE\LCD\lcdhandle.h)(0x652F41CB)
 I (..\HARDWARE\LCD\lcd.h)(0x6507B1C5)
@@ -574,13 +575,13 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (..\SYSTEM\delay\delay.h)(0x53B7797C)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 F (..\HARDWARE\flash\flash.h)(0x657170D9)()
 F (..\HARDWARE\queue\liuqueue.c)(0x66022C06)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\liuqueue.o --omf_browse ..\obj\liuqueue.crf --depend ..\obj\liuqueue.d)
 I (..\HARDWARE\queue\liuqueue.h)(0x65B20690)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (D:\keil5\ARM\ARMCC5\include\stdint.h)(0x5E8E3CC2)
 F (..\HARDWARE\queue\liuqueue.h)(0x65B20690)()
 F (..\HARDWARE\SD\sdio_sdcard.c)(0x65D833D6)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\sdio_sdcard.o --omf_browse ..\obj\sdio_sdcard.crf --depend ..\obj\sdio_sdcard.d)
@@ -625,7 +626,7 @@ I (..\SYSTEM\usart\usart.h)(0x64FEA60C)
 I (D:\keil5\ARM\ARMCC5\include\stdio.h)(0x5E8E3CC2)
 F (..\HARDWARE\SD\sdio_sdcard.h)(0x65DC317E)()
 F (..\HARDWARE\LCD\lcdhandle.h)(0x652F41CB)()
-F (..\HARDWARE\LCD\lcdhandle.c)(0x661492E2)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\lcdhandle.o --omf_browse ..\obj\lcdhandle.crf --depend ..\obj\lcdhandle.d)
+F (..\HARDWARE\LCD\lcdhandle.c)(0x6618CC58)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\lcdhandle.o --omf_browse ..\obj\lcdhandle.crf --depend ..\obj\lcdhandle.d)
 I (..\USER\stm32f4xx_conf.h)(0x53DBB3CB)
 I (..\FWLIB\inc\stm32f4xx_adc.h)(0x53DBAFAD)
 I (..\USER\stm32f4xx.h)(0x542BA483)
@@ -662,7 +663,7 @@ I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\HARDWARE\LCD\lcdhandle.h)(0x652F41CB)
 I (..\HARDWARE\LCD\lcd.h)(0x6507B1C5)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (D:\keil5\ARM\ARMCC5\include\string.h)(0x5E8E3CC2)
 I (..\HARDWARE\KEY\key.h)(0x650802D5)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
@@ -706,9 +707,9 @@ I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 I (..\SYSTEM\delay\delay.h)(0x53B7797C)
 F (..\HARDWARE\handlewater\handlewater.h)(0x65B1DA78)()
-F (..\HARDWARE\handlewater\handlewater.c)(0x660B7230)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\handlewater.o --omf_browse ..\obj\handlewater.crf --depend ..\obj\handlewater.d)
+F (..\HARDWARE\handlewater\handlewater.c)(0x6629C729)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\handlewater.o --omf_browse ..\obj\handlewater.crf --depend ..\obj\handlewater.d)
 I (..\HARDWARE\handlewater\handlewater.h)(0x65B1DA78)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (D:\keil5\ARM\ARMCC5\include\stdint.h)(0x5E8E3CC2)
 I (..\HARDWARE\MODBUS\modbus.h)(0x65B1D828)
 I (..\USER\stm32f4xx.h)(0x542BA483)
@@ -745,7 +746,7 @@ I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
 I (..\HARDWARE\adc\adc.h)(0x650AA0F8)
-I (..\HARDWARE\RS485\rs485.h)(0x656E9730)
+I (..\HARDWARE\RS485\rs485.h)(0x6628ACDA)
 I (..\SYSTEM\sys\sys.h)(0x53B52F5F)
 F (..\HARDWARE\SD\sdhandle.h)(0x65892263)()
 F (..\HARDWARE\SD\sdhandle.c)(0x65D44B59)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\sdhandle.o --omf_browse ..\obj\sdhandle.crf --depend ..\obj\sdhandle.d)
@@ -784,7 +785,7 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x53DBAFAD)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x53DBAFAD)
-I (..\HARDWARE\protocol\protocol.h)(0x660B6930)
+I (..\HARDWARE\protocol\protocol.h)(0x6629C3BB)
 I (..\HARDWARE\SD\sdio_sdcard.h)(0x65DC317E)
 F (..\SYSTEM\delay\delay.c)(0x543CFBA8)(-c --cpu Cortex-M4.fp -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\FWLIB\inc -I ..\HARDWARE\KEY -I ..\HARDWARE\RS485 -I ..\HARDWARE\MODBUS -I ..\HARDWARE\EC20 -I ..\HARDWARE\TIMER -I ..\HARDWARE\IWDG -I ..\HARDWARE\protocol -I ..\HARDWARE\flash -I ..\HARDWARE\queue -I ..\HARDWARE\MALLOC -I ..\HARDWARE\SD -I ..\HARDWARE\hc08 -I ..\HARDWARE\adc -I ..\HARDWARE\handlewater -I ..\HARDWARE\SD-I.\RTE\_RS485-ID:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\keil5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\delay.o --omf_browse ..\obj\delay.crf --depend ..\obj\delay.d)
 I (..\SYSTEM\delay\delay.h)(0x53B7797C)

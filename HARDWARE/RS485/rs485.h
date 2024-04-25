@@ -13,6 +13,7 @@ void RS485_Init(uint32_t bound);
 void RS485_Send_Data(uint8_t *buf,uint8_t len);
 void RS485_Receive_Data(uint8_t *buf,uint8_t *len);
 void switchRS485Mode(uint8_t mode);
+void RS485Config(uint32_t bound,uint16_t wordLength,uint16_t stopbits,uint16_t parity);
 #endif	   
 
 

@@ -175,6 +175,7 @@ uint8_t get_address_bytes(uint8_t *addressBytes,uint8_t bytesLength,uint32_t a1,
 #define EC20_ATQIACT	0x0c
 #define	EC20_QIOPEN		0x0d
 #define EC20_ATCCLK		0x0e
+#define EC20_GPSLOC		0x0f
 
 #define EC20_QISEND			0x20
 #define EC20_QIWAITREPLY	0x21
@@ -213,6 +214,7 @@ uint8_t get_address_bytes(uint8_t *addressBytes,uint8_t bytesLength,uint32_t a1,
 
 #define EC20_EVENT_DATA_UPDATE	0x05
 #define EC20_EVENT_SEND_XIAXIE	0x06
+#define EC20_EVENT_GPS		0x07
 typedef struct
 {
 	uint8_t		_type;
@@ -283,6 +285,7 @@ void UTCToBeijing(jxjs_time_t* time);
 #define U_CANAL			0x03
 #define DOUBLE_NUMS		10
 
+#define FORMULA_NONE	0x02
 #define FORMULA_XIECAI	0x01
 
 typedef struct
@@ -319,9 +322,22 @@ typedef struct
 
 void init_waterData(jxjs_water_data_t *data);
 
+
+typedef struct
+{
+	uint16_t	_wordlength;
+	uint16_t	_stopbit;
+	uint16_t	_parity;
+	uint32_t	_bound;
+}device_uart_config_t;
+void initDeviceUartConfig(device_uart_config_t *config);
+
+uint8_t checkDeviceUartConfigIsEqual(device_uart_config_t *config1,device_uart_config_t *config2);
+
 /********************************************设备****************************************************************/
 #define DEVICE_WATERLEVEL		0x01
 #define	DEVICE_FLOWMETER 		0x02
+#define DEVICE_FLOWSPEED		0x03
 
 #define WATERLEVEL_PROTOCOL1	0x01//古大雷达
 #define WATERLEVEL_PROTOCOL2	0x02//4-20 ma
@@ -333,8 +349,12 @@ void init_waterData(jxjs_water_data_t *data);
 #define FLOWMETER_PROTOCOL5		0x05 //上海肯特电磁流量计
 #define FLOWMETER_PROTOCOL6		0x06 //建恒DCT1158 超声波流量计
 #define FLOWMETER_PROTOCOL7		0x07 //百江通 超声波流量计
-#define FLOWMETER_PROTOCOL8		0x08 //信箱华隆 电磁流量计
+#define FLOWMETER_PROTOCOL8		0x08 //新乡华隆 电磁流量计
 #define	FLOWMETER_JINYI			0x09 //京仪电磁流量计
+#define	FLOWMETER_JDLY			0x0A //沈阳佳德联益超声波流量计
+#define FLOWMETER_HZZH			0x0B //杭州振华
+
+#define	FLOWSPEED_MSYX1			0x01 //迈时永信流速仪
 
 #define MAX_DEVICE_NUM	4
 typedef struct
@@ -348,7 +368,8 @@ typedef struct
 	uint8_t				_device_formula;
 	uint64_t			_device_last_get_time;
 	water_param_t		_water_param;
-	jxjs_water_data_t	_water_data;	
+	jxjs_water_data_t	_water_data;
+	device_uart_config_t	_uart_config;
 }jxjs_device_t;
 void init_deviceStruct(jxjs_device_t *device);
 
@@ -393,6 +414,7 @@ typedef struct
 	uint8_t		_enable;
 	uint8_t		_ip_type;
 	uint8_t 	_connect_state;//0x00 还未连接，0x01 连接成功，0x02连接失败 
+	uint8_t		_sendFlag;
 	uint8_t 	_ip1;
 	uint8_t 	_ip2;
 	uint8_t 	_ip3;
@@ -454,7 +476,8 @@ typedef struct
 	uint8_t _flag;
 	uint8_t _index;
 	uint8_t _stage;
-	uint8_t _failed_num;	
+	uint8_t _failed_num;
+	uint8_t _last_res;
 	uint64_t _cmd_time;
 }
 rs485_state_t;

@@ -70,22 +70,46 @@ static void make_data_device_data(char *title,char *data1,char* data2,char* data
 	char *tmp;
 	double flowRate_h;//瞬时流量 每小时
 	
-	if(index >= MAX_DEVICE_NUM)
+	if(index >= device_manager._device_count)
 		index = 0;
 	
 	if(device_manager._devices[index]._device_type == DEVICE_WATERLEVEL)
 	{
-		maxItemNum = 6;
+		if(device_manager._devices[index]._device_formula == FORMULA_NONE)
+			maxItemNum = 2;
+		else 
+			maxItemNum = 6;
 		type = 0;
 	}
-	else
+	else if(device_manager._devices[index]._device_type == DEVICE_FLOWMETER)
 	{
 		maxItemNum = 3;
-		type = 1;
+		type = 3;
+	}
+	else if(device_manager._devices[index]._device_type == DEVICE_FLOWSPEED)
+	{
+		maxItemNum = 1;
+		type = 2;
 	}
 	
 	//标题数据
-	sprintf(title,"传感器%d",index + 1);
+	if(device_manager._devices[index]._device_type == DEVICE_WATERLEVEL)
+	{
+		sprintf(title,"传感器%d   水位计",index + 1);
+	}
+	else if(device_manager._devices[index]._device_type == DEVICE_FLOWMETER)
+	{
+		sprintf(title,"传感器%d   流量计",index + 1);
+	}
+	else if(device_manager._devices[index]._device_type == DEVICE_FLOWSPEED)
+	{
+		sprintf(title,"传感器%d   流速仪",index + 1);
+	}
+	else
+	{
+		sprintf(title,"传感器%d     未知",index + 1);
+	}
+	
 	
 	for(i = LCD_msg._lineTop;i < LCD_msg._lineTop + 3;i++)
 	{
@@ -125,7 +149,7 @@ static void make_data_device_data(char *title,char *data1,char* data2,char* data
 		}
 		else
 		{
-			switch(i + type * 3)
+			switch(i + type)
 			{
 				case 1:
 					sprintf(tmp,"空高:%10.3fm",device_manager._devices[index]._water_data._airHeight);
@@ -556,11 +580,22 @@ void doKeyUp(void)
 	{
 		if(device_manager._devices[LCD_msg._menuIndex]._device_type == DEVICE_WATERLEVEL)
 		{
-			item_nums = 6;
+			if(device_manager._devices[LCD_msg._menuIndex]._device_formula == FORMULA_NONE)
+				item_nums = 2;
+			else 
+				item_nums = 6;
+		}
+		else if(device_manager._devices[LCD_msg._menuIndex]._device_type == DEVICE_FLOWMETER)
+		{
+			item_nums = 3;
+		}
+		else if(device_manager._devices[LCD_msg._menuIndex]._device_type == DEVICE_FLOWSPEED)
+		{
+			item_nums = 1;
 		}
 		else
 		{
-			item_nums = 3;
+			item_nums = 1;
 		}
 		
 		if(LCD_msg._currentLine == 0)
@@ -664,11 +699,22 @@ void doKeyDown(void)
 	{
 		if(device_manager._devices[LCD_msg._menuIndex]._device_type == DEVICE_WATERLEVEL)
 		{
-			item_nums = 6;
+			if(device_manager._devices[LCD_msg._menuIndex]._device_formula == FORMULA_NONE)
+				item_nums = 2;
+			else 
+				item_nums = 6;
+		}
+		else if(device_manager._devices[LCD_msg._menuIndex]._device_type == DEVICE_FLOWMETER)
+		{
+			item_nums = 3;
+		}
+		else if(device_manager._devices[LCD_msg._menuIndex]._device_type == DEVICE_FLOWSPEED)
+		{
+			item_nums = 1;
 		}
 		else
 		{
-			item_nums = 3;
+			item_nums = 1;
 		}
 		
 		if(LCD_msg._currentLine == item_nums)

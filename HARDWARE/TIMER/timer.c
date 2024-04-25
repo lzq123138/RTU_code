@@ -209,17 +209,27 @@ void get_sys_time(void)
 	sys_time._weekday = date.RTC_WeekDay;
 }
 
-static uint8_t check_save_time(uint8_t index)
+static uint8_t check_save_time()
 {
+	uint8_t i;
 	uint64_t timeStamp;
 	//if(platform_manager._platforms[index]._enable == 0)
 		//return 0;
 	timeStamp = sys_time._hour * 3600 + sys_time._min * 60 + sys_time._sec;
-	if((sys_time._diff - platform_manager._platforms[index]._last_save_time) >= 20 &&
-		(timeStamp % platform_manager._platforms[index]._interval_time) < 5)
+	
+	for(i = 0;i < platform_manager._platform_count;i++)
 	{
-		return 1;
+		if((sys_time._diff - platform_manager._platforms[i]._last_save_time) >= 20 &&
+		(timeStamp % platform_manager._platforms[i]._interval_time) < 5)
+		{
+			platform_manager._platforms[i]._sendFlag = 1;
+		}
+		else
+		{
+			platform_manager._platforms[i]._sendFlag = 0;
+		}
 	}
+	
 	return 0;
 }
 
@@ -228,26 +238,15 @@ static void report_save_data_check()
 	uint8_t i;
 	uint16_t port;
 	msg_event_t event;	
-		
+	
+	check_save_time();
+	
 	for(i = 0;i < platform_manager._platform_count;i++)
 	{
 		//当时间间隔大于等于规定的上报时间间隔时 存包
-		if(check_save_time(i))
+		if(platform_manager._platforms[i]._sendFlag)
 		{
 			//组包
-			/*
-			create_hydrology_packet(&hydrology_packet,&sys_time,&device_manager,&platform_manager,JXJS_CONTROL_FUNC_FLOW,i);
-			if(platform_manager._platforms[EC20_msg._ec20_event._index]._address_type == 0x02)
-			{
-				port = 5055;
-			}
-			else if(platform_manager._platforms[EC20_msg._ec20_event._index]._address_type == 0x03)
-			{
-				port = 5069;
-			}
-			//组包 组完之后存进SD卡
-			make_hydrology_pack(EC20_Send_Data[i]._data,&(EC20_Send_Data[i]._size),&hydrology_packet,port);
-			*/
 			craeteHygPackPro1(&EC20_Send_Data[i],&platform_manager,&device_manager,&sys_time,i);
 			//存数据
 			if(SDCardInitSuccessFlag)
@@ -277,6 +276,7 @@ static void report_save_data_check()
 	
 			//更新上报时间
 			platform_manager._platforms[i]._last_send_time = sys_time._diff;
+			platform_manager._platforms[i]._sendFlag = 0;
 		}
 		else if(sys_time._diff > platform_manager._platforms[i]._last_send_time  
 			&& (sys_time._diff - platform_manager._platforms[i]._last_send_time) >= 60 && SDCardInitSuccessFlag)
@@ -329,7 +329,7 @@ static void get_water_data_check(void)
 		
 		if(sys_time._diff >= startTime)
 		{
-			if(sys_time._diff <= startTime + 5 || (sys_time._diff - device_manager._devices[i]._device_last_get_time) >= device_manager._devices[i]._device_get_time)
+			if(sys_time._diff <= startTime + 3 || (sys_time._diff - device_manager._devices[i]._device_last_get_time) >= device_manager._devices[i]._device_get_time)
 			{
 				if((sys_time._diff - sys_time._last_camera_diff > 13) ||
 					(sys_time._diff - sys_time._last_camera_diff >= 1 && sys_time._diff - sys_time._last_camera_diff <= 8))
@@ -347,7 +347,7 @@ static void get_water_data_check(void)
 	}
 	
 	//检测传感器超时
-	if((rs485State._flag == 1) && (sys_time._diff - rs485State._cmd_time >= 3))
+	if((rs485State._flag == 1) && (sys_time._diff - rs485State._cmd_time >= 5))
 	{
 		failedWaterData(rs485State._index);
 	}

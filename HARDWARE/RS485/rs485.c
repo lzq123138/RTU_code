@@ -2,6 +2,7 @@
 #include "rs485.h"	 
 #include "delay.h"
 #include "stm32f4xx_conf.h"
+#include "protocol.h"
 extern unsigned char Timeout;
 extern uint8_t RS485Mode;
 //接收缓存区 	
@@ -10,6 +11,8 @@ uint8_t RS485_RX_BUF[128];  	//接收缓冲,最大64个字节.
 uint8_t RS485_RX_CNT=0;   									 
 //初始化IO 串口3
 //bound:波特率	
+
+extern device_uart_config_t	currentConfig;
 
 #define RS485_USART		USART1
 #define RS485_AHB_GPIO 	RCC_AHB1Periph_GPIOA
@@ -74,6 +77,30 @@ void RS485_Init(uint32_t bound)
 	RS485_TX_EN=0;				//默认为接收模式
 	RS485_MODE_EN=0;			//默认为下泄生态流量
 	RS485Mode = 0;
+}
+
+void RS485Config(uint32_t bound,uint16_t wordLength,uint16_t stopbits,uint16_t parity)
+{
+	USART_InitTypeDef USART_InitStructure;
+			
+
+	//USART_ITConfig(RS485_USART, USART_IT_RXNE, DISABLE);//关闭接受中断
+	USART_Cmd(RS485_USART, DISABLE);  //关闭使能串口 3
+	
+	USART_InitStructure.USART_BaudRate = bound;//波特率设置
+	USART_InitStructure.USART_WordLength = wordLength;//数据格式
+	USART_InitStructure.USART_StopBits = stopbits;//停止位
+	USART_InitStructure.USART_Parity = parity;//校验位
+	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;//无硬件数据流控制
+	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	//收发模式
+    USART_Init(RS485_USART, &USART_InitStructure); //初始化串口3
+    USART_Cmd(RS485_USART, ENABLE);  //使能串口 3
+	//USART_ITConfig(RS485_USART, USART_IT_RXNE, ENABLE);//开启接受中断
+	
+	currentConfig._bound = bound;
+	currentConfig._parity = parity;
+	currentConfig._stopbit = stopbits;
+	currentConfig._wordlength = wordLength;
 }
 
 //RS485发送len个字节.

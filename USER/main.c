@@ -37,6 +37,7 @@ uint8_t					SDFailedNums = 0;
 rs485_state_t			rs485State;
 uint64_t 				connectServerDiff = 0;
 uint8_t 				debugFlag = 0;
+device_uart_config_t	currentConfig;
 	
 extern uint8_t RS485_RX_BUF[128];
 extern uint8_t RS485_RX_CNT;
@@ -365,6 +366,7 @@ int main(void)
 	init_platform_manager(&platform_manager);
 	init_battery_data(&battery_data);
 	initRs485State(&rs485State);
+	initDeviceUartConfig(&currentConfig);
 	//获取设备ID
 	getDeviceNumber();//每个设备都是唯一的设备ID
 	
@@ -379,7 +381,7 @@ int main(void)
 	Adc_Init();
 	
 	//定下程序版本
-	battery_data._version = 3;
+	battery_data._version = 4;
 	
 	//读取内存配置 如果没有则采用默认值
 	if(SDCardInitSuccessFlag)
@@ -409,16 +411,17 @@ int main(void)
 			parseEvent(event);
 		}
 		
-		if(rs485State._flag == 0)
+		if((rs485State._flag == 0) && (sys_time._diff - rs485State._cmd_time >= 1))
 		{
 			if(pop_485_event(&event))
 			{
 				rs485State._index = event._index;
 				rs485State._failed_num = 0;
 				rs485State._stage = 0;
-				
+			
 				handle_water_data(event._index);
 			}
+			
 		}
 		
 		//延时

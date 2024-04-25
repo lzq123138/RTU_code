@@ -467,27 +467,23 @@ void EC20_parsecclk(void)
 		UTCToBeijing(&js_time);//格林威治转北京时间
 		
 		PWR_BackupAccessCmd(ENABLE);//使能备份寄存器操作		
-		if(hh < 8)
+		//设置时间
+		time1.RTC_Hours = js_time._hour;
+		time1.RTC_Minutes = js_time._min;
+		time1.RTC_Seconds = js_time._sec;
+		time1.RTC_H12 = (js_time._hour >= 12) ? RTC_H12_PM:RTC_H12_AM;
+		RTC_SetTime(RTC_Format_BIN,&time1);
+		
+		RTC_GetDate(RTC_Format_BIN,&date);
+		//再设置日期
+		if(date.RTC_Year != js_time._year || date.RTC_Month != js_time._month | date.RTC_Date != js_time._day  || date.RTC_WeekDay != js_time._weekday)
 		{
-			//设置时间
-			time1.RTC_Hours = js_time._hour;
-			time1.RTC_Minutes = js_time._min;
-			time1.RTC_Seconds = js_time._sec;
-			time1.RTC_H12 = (js_time._hour >= 12) ? RTC_H12_PM:RTC_H12_AM;
-			RTC_SetTime(RTC_Format_BIN,&time1);
-			
-			RTC_GetDate(RTC_Format_BIN,&date);
-			//再设置日期
-			if(date.RTC_Year != js_time._year || date.RTC_Month != js_time._month | date.RTC_Date != js_time._day  || date.RTC_WeekDay != js_time._weekday)
-			{
-				date.RTC_Year = js_time._year ;
-				date.RTC_Month = js_time._month ;
-				date.RTC_Date = js_time._day;  
-				date.RTC_WeekDay = js_time._weekday;
-				RTC_SetDate(RTC_Format_BIN,&date);
-			}
-		}
-			
+			date.RTC_Year = js_time._year ;
+			date.RTC_Month = js_time._month ;
+			date.RTC_Date = js_time._day;  
+			date.RTC_WeekDay = js_time._weekday;
+			RTC_SetDate(RTC_Format_BIN,&date);
+		}			
 		PWR_BackupAccessCmd(DISABLE);
 	}
 	

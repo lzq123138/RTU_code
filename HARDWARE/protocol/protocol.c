@@ -203,6 +203,7 @@ void init_deviceStruct(jxjs_device_t *device)
 	device->_device_formula = 0x01;
 	init_waterData(&device->_water_data);
 	init_waterParam(&device->_water_param);
+	initDeviceUartConfig(&device->_uart_config);
 }
 
 void init_waterData(jxjs_water_data_t *data)
@@ -214,6 +215,23 @@ void init_waterData(jxjs_water_data_t *data)
 	data->_flow_backup = 0;
 	data->_flow_change_backup = 0;
 	data->_airHeight = 0;
+}
+
+void initDeviceUartConfig(device_uart_config_t *config)
+{
+	config->_bound = 9600;
+	config->_parity = 0x0000;//USART_Parity_No
+	config->_stopbit = 0x0000;//USART_StopBits_1
+	config->_wordlength = 0x0000;//USART_WordLength_8b
+}
+
+uint8_t checkDeviceUartConfigIsEqual(device_uart_config_t *config1,device_uart_config_t *config2)
+{
+	if( (config1->_bound == config2->_bound) && (config1->_parity == config2->_parity)
+		&& (config1->_stopbit == config2->_stopbit) && (config1->_wordlength == config2->_wordlength) )
+		return 1;
+	
+	return 0;
 }
 
 void init_waterParam(water_param_t *param)
@@ -391,6 +409,7 @@ void init_platform(jxjs_platform_t	*platform)
 	platform->_enable = 1;
 	platform->_mode = NO_RESPONSE_MODE;
 	platform->_connect_state = 0x00;
+	platform->_sendFlag = 0;
 	platform->_ip1 = 127;
 	platform->_ip2 = 0;
 	platform->_ip3 = 0;
@@ -514,6 +533,7 @@ void initRs485State(rs485_state_t *state)
 	state->_index = 0;
 	state->_stage = 0;
 	state->_cmd_time = 0;
+	state->_last_res = 0x00;
 }
 
 void init_lcd_msg(LCD_msg_t *msg)
@@ -930,7 +950,8 @@ static uint8_t createFlowSpeedDataPro1(uint8_t *data,device_manager_t *manager,u
 	
 	for(i = 0;i < manager->_device_count;i++)
 	{
-		if(manager->_devices[i]._device_type == DEVICE_WATERLEVEL)
+		if((manager->_devices[i]._device_type == DEVICE_WATERLEVEL && manager->_devices[i]._device_formula != FORMULA_NONE)
+			|| manager->_devices[i]._device_type == DEVICE_FLOWSPEED)
 		{
 			flowSpeed = manager->_devices[i]._water_data._flowspeed * 1000;//毫米值
 			for(j = 0;j < 3;j++)
