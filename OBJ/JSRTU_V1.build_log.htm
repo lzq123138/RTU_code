@@ -27,8 +27,37 @@ Project File Date:  03/04/2024
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\keil5\ARM\ARMCC5\Bin'
 Build target 'RS485'
+compiling handlewater.c...
+..\HARDWARE\handlewater\handlewater.c(420): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+..\HARDWARE\handlewater\handlewater.c(400): warning:  #177-D: variable "byte16"  was declared but never referenced
+  	uint16_t byte16 = 0;
+..\HARDWARE\handlewater\handlewater.c(478): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+..\HARDWARE\handlewater\handlewater.c(449): warning:  #177-D: variable "byte32"  was declared but never referenced
+  	uint32_t byte32 = 0;
+..\HARDWARE\handlewater\handlewater.c(450): warning:  #177-D: variable "byte16"  was declared but never referenced
+  	uint16_t byte16 = 0;
+..\HARDWARE\handlewater\handlewater.c(453): warning:  #177-D: variable "i"  was declared but never referenced
+  	uint8_t i;
+..\HARDWARE\handlewater\handlewater.c(510): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+..\HARDWARE\handlewater\handlewater.c(557): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+..\HARDWARE\handlewater\handlewater.c(656): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+..\HARDWARE\handlewater\handlewater.c(698): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		if(f1 >= 1.0 || f1 < -1.0)
+..\HARDWARE\handlewater\handlewater.c(738): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
+..\HARDWARE\handlewater\handlewater.c(1091): warning:  #1-D: last line of file ends without a newline
+  }
+..\HARDWARE\handlewater\handlewater.c: 12 warnings, 0 errors
+linking...
+Program Size: Code=101100 RO-data=1364 RW-data=356 ZI-data=29908  
+FromELF: creating hex file...
 After Build - User command #1: D:\keil5\ARM\ARMCC\bin\fromelf.exe --bin --output ../OBJ/JSRTU_V1.bin  ../OBJ/JSRTU_V1.axf
-"..\OBJ\JSRTU_V1.axf" - 0 Error(s), 0 Warning(s).
+"..\OBJ\JSRTU_V1.axf" - 0 Error(s), 12 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -42,7 +71,7 @@ Package Vendor: Keil
   D:\keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

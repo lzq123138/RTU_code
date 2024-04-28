@@ -357,8 +357,7 @@ static uint16_t data_to_local(uint16_t index,uint8_t *data)
 		battery_data._extend_data[i] = data[index++];
 	}
 	
-	//作者通道
-	
+	//作者通道	
 	switch(battery_data._extend_data[0])
 	{
 		case 0x01:
@@ -379,6 +378,10 @@ static uint16_t data_to_local(uint16_t index,uint8_t *data)
 		default:
 			break;
 	}
+	
+	//防止被重复设置
+	battery_data._extend_data[6] = 0x4A;
+	battery_data._extend_data[7] = 0x53;
 	
 	return index;
 }

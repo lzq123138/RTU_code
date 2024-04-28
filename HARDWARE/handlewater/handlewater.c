@@ -797,7 +797,7 @@ static void readFlowJDLY(uint8_t *data,uint16_t size,uint8_t index)
 	{
 		byte32 = byte32 << 8 | data[i];
 	}
-	device_manager._devices[index]._water_data._flowspeed = (byte32 * 0.001) / 3600.0;
+	device_manager._devices[index]._water_data._flowRate = (byte32 * 0.001) / 3600.0;
 	
 	rs485State._flag = 0;
 	rs485State._cmd_time = sys_time._diff;
