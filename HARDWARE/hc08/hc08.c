@@ -338,10 +338,10 @@ static void extendDataCase5(uint8_t *data)
 		if(index >= device_manager._device_count)
 			return;
 		
-		device_manager._devices[index]._uart_config._bound = bounds[data[2]];
-		device_manager._devices[index]._uart_config._wordlength = wordLengths[data[3]];
-		device_manager._devices[index]._uart_config._stopbit = stopbits[data[4]];
-		device_manager._devices[index]._uart_config._parity = paritys[data[5]];
+		device_manager._devices[index]._uart_config._bound = bounds[data[2] > 0x0D ? 0x0D : data[2]];
+		device_manager._devices[index]._uart_config._wordlength = wordLengths[data[3] > 0x01 ? 0x01 : data[3]];
+		device_manager._devices[index]._uart_config._stopbit = stopbits[data[4] > 0x03 ? 0x03 : data[4]];
+		device_manager._devices[index]._uart_config._parity = paritys[data[5] > 0x02 ? 0x02 : data[5]];
 	}
 }
 
@@ -974,9 +974,13 @@ static void send_device_protoclo_data(void)
 	sprintf(tmp_data,"流速仪");//设备一名称
 	appendStringToData(data,&size,tmp_data);//把名字追加到数组里
 	
-	data[size++] = 0x01;//设备三包含一种协议
+	data[size++] = 0x02;//设备三包含一种协议
 	data[size++] = FLOWSPEED_MSYX1;//协议一编号
 	sprintf(tmp_data,"京水流速仪");
+	appendStringToData(data,&size,tmp_data);
+	
+	data[size++] = FLOWSPEED_BYD;//协议一编号
+	sprintf(tmp_data,"博意达流速仪");
 	appendStringToData(data,&size,tmp_data);
 	
 	

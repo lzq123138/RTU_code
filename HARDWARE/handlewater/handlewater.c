@@ -42,6 +42,7 @@ static uint8_t flowRate_cmdB[] = {0x03,0x02,0x52,0x00,0x02};
 static uint8_t flow_cmdB[] = {0x03,0x03,0x08,0x00,0x04};
 
 static uint8_t flowspeed_cmd1[] = {0x03,0x00,0x08,0x00,0x01};
+static uint8_t flowspeed_byd[] = {0x03,0x00,0xA2,0x00,0x08};
 
 
 static void handle_waterlevel_protocol1(uint8_t index)
@@ -228,6 +229,9 @@ static void handle_flowspeed_once(uint8_t index,uint8_t protocol)
 		case FLOWSPEED_MSYX1:
 			Modbus_Send_cmd(flowspeed_cmd1,5,device_manager._devices[index]._device_number);
 			break;
+		case FLOWSPEED_BYD:
+			Modbus_Send_cmd(flowspeed_byd,5,device_manager._devices[index]._device_number);
+			break;
 		default:
 			return_flag = 1;
 			break;
@@ -294,6 +298,7 @@ static void handle_flowspeed(uint8_t index)
 	switch(device_manager._devices[index]._device_protocol)
 	{
 		case FLOWSPEED_MSYX1:
+		case FLOWSPEED_BYD:
 			handle_flowspeed_once(index,device_manager._devices[index]._device_protocol);
 			break;
 		default:
@@ -347,12 +352,14 @@ static void readWaterLevelPro1(uint8_t *data,uint16_t size,uint8_t index)
 	
 	if(data[2] == 0x04)
 		ullage_mm = data[5] << 8 | data[6];
-	
+
+
 	if(ullage_mm != 0)
 		device_manager._devices[index]._water_data._airHeight = ullage_mm / 1000.0;
 	else
 		device_manager._devices[index]._water_data._airHeight = ullage_cm / 100.0;
 	device_manager._devices[index]._water_data._waterlevel = device_manager._devices[index]._water_param._insheight - device_manager._devices[index]._water_data._airHeight;
+	
 	if(device_manager._devices[index]._water_data._waterlevel < 0)
 			device_manager._devices[index]._water_data._waterlevel = 0;
 	if(device_manager._devices[index]._device_formula == FORMULA_XIECAI)
@@ -653,6 +660,7 @@ static void readFlowMeterNormal(uint8_t *data,uint16_t size,uint8_t index,uint8_
 		}
 				
 		f1 = Hex2Float(num);
+		//f1 = 3.468;
 		device_manager._devices[index]._water_data._flowRate = f1 / 3600.0;
 		rs485State._stage |= 0x01;
 	}
@@ -850,6 +858,60 @@ static void readFlowMeter(uint8_t *data,uint16_t size,uint8_t index)
 }
 
 
+static void readFlowSpeedByd(uint8_t *data,uint16_t size,uint8_t index)
+{
+	uint8_t nums[8] = {0};
+	uint8_t i = 0;
+	float f1;
+	
+	if(index >= device_manager._device_count)
+		return;
+	
+	if(CheckDataLegality(data,size,0xFF) == 0)
+		return;
+	
+	if(size < 21)
+		return;
+	
+	//waterlevel
+	for(i = 4;i < 8;i++)
+	{
+		nums[i - 4] = data[i];
+	}
+	f1 = Hex2Float(nums);
+	device_manager._devices[index]._water_data._waterlevel = f1;
+	
+	//flowspeed
+	for(i = 8;i < 12;i++)
+	{
+		nums[i - 8] = data[i];
+	}
+	f1 = Hex2Float(nums);
+	device_manager._devices[index]._water_data._flowspeed = f1;
+	
+	//flowrate
+	for(i = 12;i < 16;i++)
+	{
+		nums[i - 12] = data[i];
+	}
+	f1 = Hex2Float(nums);
+	device_manager._devices[index]._water_data._flowRate = f1;
+	
+	//flow
+	for(i = 16;i < 20;i++)
+	{
+		nums[i - 16] = data[i];
+	}
+	f1 = Hex2Float(nums);
+	device_manager._devices[index]._water_data._flow = f1;
+	
+	rs485State._flag = 0;
+	rs485State._cmd_time = sys_time._diff;
+	device_manager._devices[index]._failed_num = 0;
+	rs485State._last_res = 0;
+	device_manager._devices[index]._device_com_state = 0x01;
+}
+
 static void readFlowSpeedMsyx1(uint8_t *data,uint16_t size,uint8_t index)
 {
 	uint16_t byte16;
@@ -880,6 +942,9 @@ static void readFlowSpeed(uint8_t *data,uint16_t size,uint8_t index)
 	{
 		case FLOWSPEED_MSYX1:
 			readFlowSpeedMsyx1(data,size,index);
+			break;
+		case FLOWSPEED_BYD:
+			readFlowSpeedByd(data,size,index);
 			break;
 		default:
 			break;
@@ -1061,6 +1126,7 @@ static void failedFlowSpeed(uint8_t index)
 	switch(device_manager._devices[index]._device_protocol)
 	{
 		case FLOWSPEED_MSYX1:
+		case FLOWSPEED_BYD:
 			failedFlowSpeedOnce(index);
 			break;
 		default:

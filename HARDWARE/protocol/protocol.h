@@ -355,6 +355,7 @@ uint8_t checkDeviceUartConfigIsEqual(device_uart_config_t *config1,device_uart_c
 #define FLOWMETER_HZZH			0x0B //杭州振华
 
 #define	FLOWSPEED_MSYX1			0x01 //迈时永信流速仪
+#define FLOWSPEED_BYD			0x02 //博意达流速流量计
 
 #define MAX_DEVICE_NUM	4
 typedef struct

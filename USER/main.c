@@ -381,7 +381,7 @@ int main(void)
 	Adc_Init();
 	
 	//定下程序版本
-	battery_data._version = 4;
+	battery_data._version = 6;
 	
 	//读取内存配置 如果没有则采用默认值
 	if(SDCardInitSuccessFlag)

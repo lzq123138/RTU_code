@@ -88,8 +88,16 @@ static void make_data_device_data(char *title,char *data1,char* data2,char* data
 	}
 	else if(device_manager._devices[index]._device_type == DEVICE_FLOWSPEED)
 	{
-		maxItemNum = 1;
-		type = 2;
+		if(device_manager._devices[index]._device_protocol == FLOWSPEED_BYD)
+		{
+			maxItemNum = 5;
+			type = 1;
+		}
+		else
+		{
+			maxItemNum = 1;
+			type = 2;
+		}		
 	}
 	
 	//标题数据
@@ -591,7 +599,10 @@ void doKeyUp(void)
 		}
 		else if(device_manager._devices[LCD_msg._menuIndex]._device_type == DEVICE_FLOWSPEED)
 		{
-			item_nums = 1;
+			if(device_manager._devices[LCD_msg._menuIndex]._device_protocol == FLOWSPEED_MSYX1)
+				item_nums = 1;
+			else
+				item_nums = 5;
 		}
 		else
 		{
@@ -710,7 +721,10 @@ void doKeyDown(void)
 		}
 		else if(device_manager._devices[LCD_msg._menuIndex]._device_type == DEVICE_FLOWSPEED)
 		{
-			item_nums = 1;
+			if(device_manager._devices[LCD_msg._menuIndex]._device_protocol == FLOWSPEED_MSYX1)
+				item_nums = 1;
+			else
+				item_nums = 5;
 		}
 		else
 		{
