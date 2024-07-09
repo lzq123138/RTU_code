@@ -979,7 +979,7 @@ static void send_device_protoclo_data(void)
 	sprintf(tmp_data,"京水流速仪");
 	appendStringToData(data,&size,tmp_data);
 	
-	data[size++] = FLOWSPEED_BYD;//协议一编号
+	data[size++] = FLOWSPEED_BYD;//协议二编号
 	sprintf(tmp_data,"博意达流速仪");
 	appendStringToData(data,&size,tmp_data);
 	

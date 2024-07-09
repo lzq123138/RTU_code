@@ -874,33 +874,33 @@ static void readFlowSpeedByd(uint8_t *data,uint16_t size,uint8_t index)
 		return;
 	
 	//waterlevel
-	for(i = 4;i < 8;i++)
+	for(i = 3;i < 7;i++)
 	{
-		nums[i - 4] = data[i];
+		nums[i - 3] = data[i];
 	}
 	f1 = Hex2Float(nums);
 	device_manager._devices[index]._water_data._waterlevel = f1;
 	
 	//flowspeed
-	for(i = 8;i < 12;i++)
+	for(i = 7;i < 11;i++)
 	{
-		nums[i - 8] = data[i];
+		nums[i - 7] = data[i];
 	}
 	f1 = Hex2Float(nums);
 	device_manager._devices[index]._water_data._flowspeed = f1;
 	
 	//flowrate
-	for(i = 12;i < 16;i++)
+	for(i = 11;i < 15;i++)
 	{
-		nums[i - 12] = data[i];
+		nums[i - 11] = data[i];
 	}
 	f1 = Hex2Float(nums);
 	device_manager._devices[index]._water_data._flowRate = f1;
 	
 	//flow
-	for(i = 16;i < 20;i++)
+	for(i = 15;i < 19;i++)
 	{
-		nums[i - 16] = data[i];
+		nums[i - 15] = data[i];
 	}
 	f1 = Hex2Float(nums);
 	device_manager._devices[index]._water_data._flow = f1;
@@ -1112,6 +1112,8 @@ static void failedFlowSpeedOnce(uint8_t index)
 		device_manager._devices[index]._water_data._waterlevel = 0;
 		device_manager._devices[index]._water_data._flowspeed = 0;
 		device_manager._devices[index]._water_data._flowRate = 0;
+		if(device_manager._devices[index]._device_protocol == FLOWSPEED_BYD)
+			device_manager._devices[index]._water_data._flow = 0;
 		
 		rs485State._flag = 0;
 	}
